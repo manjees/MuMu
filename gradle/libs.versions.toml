@@ -1,0 +1,166 @@
+[versions]
+agp = "8.3.1"
+kotlin = "1.9.23"
+androidGradlePlugin = "8.2.2"
+androidDesugarJdkLibs = "2.0.4"
+androidxCore = "1.12.0"
+androidxAppCompat = "1.6.1"
+androidxLifecycle = "2.7.0"
+androidxComposeBom = "2024.03.00"
+androidxComposeCompiler = "1.4.7"
+androidxComposeNavigation = "2.7.7"
+androidxComposeMaterial3 = "1.2.1"
+androidxComposePaging = "3.2.1"
+androidxActivity = "1.8.2"
+androidxComposeViewbinding = "1.6.2"
+androidxTracing = "1.2.0"
+hilt = "2.46.1"
+hiltNavigationCompose = "1.2.0"
+
+okhttp = "4.11.0"
+retrofit = "2.9.0"
+retrofitKotlinxSerializationJson = "1.0.0"
+kotlinxSerializationJson = "1.5.1"
+kotlinxDatetime = "0.2.1"
+kotlinxImmutable = "0.3.5"
+
+landscapist = "2.2.5"
+composeShimmer = "1.0.5"
+
+junit4 = "4.13.2"
+junitVintageEngine = "5.10.0"
+
+androidxTestExt = "1.1.4"
+androidxEspresso = "3.5.0"
+kotest = "5.6.2"
+# https://github.com/detekt/detekt
+detekt = "1.23.0"
+mockk = "1.13.5"
+turbine = "1.0.0"
+mockkWebServer = "4.12.0"
+
+coroutine = "1.8.0"
+playServiceAds = "18.0.1"
+noCaptionYoutubePlayer = "0.0.8"
+lottie = "6.3.0"
+lottieCompose = "6.3.0"
+
+androidxDatastore = "1.0.0"
+junit = "1.1.5"
+material = "1.9.0"
+
+regacy-lifecycle = "2.6.2"
+regacy-flexbox = "3.0.0"
+regacy-constraintlayout = "2.1.4"
+
+google-admob = "23.0.0"
+firebase-bom = "32.8.0"
+core = "1.13.0"
+
+[libraries]
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
+androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxComposeNavigation" }
+androidx-compose-navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "androidxComposeNavigation" }
+androidx-compose-paging = { group = "androidx.paging", name = "paging-compose", version.ref = "androidxComposePaging" }
+androidx-compose-ui-viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding", version.ref = "androidxComposeViewbinding" }
+androidx-tracing-ktx = { group = "androidx.tracing", name = "tracing-ktx", version.ref = "androidxTracing" }
+
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
+
+landscapist-bom = { group = "com.github.skydoves", name = "landscapist-bom", version.ref = "landscapist" }
+landscapist-coil = { group = "com.github.skydoves", name = "landscapist-coil" }
+landscapist-placeholder = { group = "com.github.skydoves", name = "landscapist-placeholder" }
+landscapist-animation = { group = "com.github.skydoves", name = "landscapist-animation" }
+
+compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "composeShimmer" }
+
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junitVintageEngine" }
+androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
+inject = "javax.inject:javax.inject:1"
+kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+mockk-web-server = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockkWebServer" }
+
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
+coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine" }
+
+play-service-ads-identifier = { group = "com.google.android.gms", name = "play-services-ads-identifier", version.ref = "playServiceAds" }
+
+# youtube player
+manjee-youtube-player = { group = "com.github.manjee-official", name = "NoCaptionYoutubePlayer", version.ref = "noCaptionYoutubePlayer" }
+
+# lottie
+airbnb-lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+airbnb-lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }
+
+# verify
+verify-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+
+# admob
+play-service-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "google-admob" }
+
+# plugin
+verify-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
+junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+# legacy libraries
+legacy-androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "regacy-lifecycle" }
+legacy-androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "regacy-lifecycle" }
+legacy-flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "regacy-flexbox" }
+legacy-androidx-constraint = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "regacy-constraintlayout" }
+
+# firebase
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-message = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
+firebase-dynamic-link = { group = "com.google.firebase", name = "firebase-dynamic-links-ktx" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
+
+[bundles]
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
