@@ -19,7 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Mumu"
 include(":app")
 include(":core:designsystem")
 include(":feature:splash")
