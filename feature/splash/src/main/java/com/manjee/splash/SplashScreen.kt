@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
@@ -23,12 +22,12 @@ import androidx.compose.ui.unit.sp
 import com.manjee.designsystem.ui.Yellow40
 
 @Composable
-fun MainRoute() {
-    MainScreen()
+fun SplashRoute() {
+    SplashScreen()
 }
 
 @Composable
-internal fun MainScreen() {
+internal fun SplashScreen() {
     val pagerState = rememberPagerState(0, pageCount = { 4 })
 
     Column(
@@ -68,6 +67,6 @@ internal fun MainScreen() {
 
 @Composable
 @Preview
-fun MainScreenPreview() {
-    MainScreen()
+fun SplashScreenPreview() {
+    SplashScreen()
 }
