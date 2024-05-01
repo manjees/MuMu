@@ -71,7 +71,7 @@ internal fun SplashScreen() {
                         )
                     }
             ) {
-                // Card content
+                Text(text = "Page $it", fontSize = 24.sp, color = Yellow40)
             }
         }
     }
