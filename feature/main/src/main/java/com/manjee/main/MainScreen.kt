@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.manjee.splash
+package com.manjee.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Card
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -37,17 +36,17 @@ import com.manjee.designsystem.ui.Pink20
 import com.manjee.designsystem.ui.Red20
 import com.manjee.designsystem.ui.Yellow10
 import com.manjee.feature.splash.R
-import com.manjee.splash.component.RankItem
+import com.manjee.main.component.RankItem
 import component.NoPaddingText
 import kotlin.math.absoluteValue
 
 @Composable
-fun SplashRoute() {
-    SplashScreen()
+fun MainRoute() {
+    MainScreen()
 }
 
 @Composable
-internal fun SplashScreen() {
+internal fun MainScreen() {
     val configuration = LocalConfiguration.current
     val pagerState = rememberPagerState(0, pageCount = { QuizTheme.entries.size })
 
@@ -140,6 +139,6 @@ internal fun SplashScreen() {
 
 @Composable
 @Preview
-fun SplashScreenPreview() {
-    SplashScreen()
+fun MainScreenPreview() {
+    MainScreen()
 }

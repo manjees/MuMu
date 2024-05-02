@@ -1,4 +1,4 @@
-package com.manjee.splash.component
+package com.manjee.main.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.manjee.splash
+package com.manjee.main
 
 enum class QuizTheme(val title: String, val subTitle: String) {
     K_POP_TITLE("K-POP Title Quiz", "Listen to the latest K-pop songs and guess the titles!"),

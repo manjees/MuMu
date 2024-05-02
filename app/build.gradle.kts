@@ -53,7 +53,7 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
-    implementation(project(":feature:splash"))
+    implementation(project(":feature:main"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

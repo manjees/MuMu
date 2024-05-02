@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 include(":app")
 include(":core:designsystem")
-include(":feature:splash")
+include(":feature:main")
