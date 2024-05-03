@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import com.manjee.designsystem.component.NoPaddingText
 import com.manjee.designsystem.ui.Blue20
 import com.manjee.designsystem.ui.Green20
 import com.manjee.designsystem.ui.Grey40
@@ -37,7 +38,6 @@ import com.manjee.designsystem.ui.Red20
 import com.manjee.designsystem.ui.Yellow10
 import com.manjee.feature.splash.R
 import com.manjee.main.component.RankItem
-import component.NoPaddingText
 import kotlin.math.absoluteValue
 
 @Composable
