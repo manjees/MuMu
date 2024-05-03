@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -79,12 +80,13 @@ internal fun MainScreen() {
             ),
         ) {
             val theme: QuizTheme = QuizTheme.entries[it]
+            val shadow = if (it == pagerState.currentPage) 15.dp else 0.dp
 
             Card(
                 Modifier
                     .size(300.dp)
                     .padding(16.dp)
-                    .shadow(10.dp)
+                    .shadow(shadow, shape = RoundedCornerShape(16.dp))
                     .graphicsLayer {
                         val pageOffset = (
                                 (pagerState.currentPage - it) + pagerState
