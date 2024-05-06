@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.manjee.designsystem.ui.MuMuTheme
+import com.manjee.lyric.LyricRoute
 import com.manjee.main.MainRoute
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +22,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainRoute()
+//                    MainRoute()
+                    LyricRoute()
                 }
             }
         }

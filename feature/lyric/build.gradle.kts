@@ -20,6 +20,9 @@ android {
             isMinifyEnabled = false
         }
     }
+    buildFeatures {
+        compose = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -35,6 +38,9 @@ android {
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
             "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
         )
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.12"
     }
 }
 
