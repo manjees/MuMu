@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.manjee.mumu"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 34
         versionCode = Configuration.versionCode
         versionName = Configuration.versionName
@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":feature:main"))
+    implementation(project(":feature:lyric"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
