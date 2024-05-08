@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,16 +29,27 @@ fun LyricRoute() {
     LyricScreen()
 }
 
-private var selectedIndex by mutableIntStateOf(-1)
-private var testList by mutableStateOf(listOf(Lyric("1"), Lyric("2"), Lyric("3"), Lyric("4"), Lyric("5")))
-private var aList by mutableStateOf(listOf<Lyric>())
+private var quizList by mutableStateOf(
+    listOf(
+        Lyric(1, "1"),
+        Lyric(2, "2"),
+        Lyric(3, "3"),
+        Lyric(4, "4"),
+        Lyric(5, "5")
+    )
+)
+private var selectList by mutableStateOf(listOf<Lyric>())
 
 @Composable
 internal fun LyricScreen() {
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(testList) {
-        testList = testList.toMutableList()
+    var isAnswerListClick by remember { mutableStateOf(false) }
+    var isChoiceListClick by remember { mutableStateOf(false) }
+
+    LaunchedEffect(quizList) {
+        quizList = quizList.toMutableList()
+        Log.i("@@@@", "$quizList")
     }
 
     Column(
@@ -47,14 +57,49 @@ internal fun LyricScreen() {
             .fillMaxSize()
     ) {
         LazyColumn {
-            itemsIndexed(aList) { index, item ->
+            itemsIndexed(
+                key = { index, item -> item.index },
+                items = selectList
+            ) { _, item ->
                 val scale = remember { Animatable(1f) } // 초기화
 
                 Text(
                     modifier = Modifier
                         .scale(scale.value)
                         .clickable {
+                            if (isAnswerListClick) {
+                                return@clickable
+                            }
+                            isAnswerListClick = true
 
+                            val job = coroutineScope.launch {
+                                scale.animateTo(
+                                    targetValue = if (scale.isRunning) 1f else 0f,
+                                    animationSpec = spring(
+                                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                                        stiffness = Spring.StiffnessMedium
+                                    )
+                                )
+                            }
+
+                            job.invokeOnCompletion {
+                                quizList = quizList
+                                    .toMutableList()
+                                    .map {
+                                        if (it.index == item.index) {
+                                            it.copy(isVisible = true)
+                                        } else {
+                                            it
+                                        }
+                                    }
+
+                                selectList = selectList
+                                    .toMutableList()
+                                    .apply { remove(item) }
+
+                                isAnswerListClick = false
+//                                }
+                            }
                         },
                     text = item.str
                 )
@@ -71,7 +116,7 @@ internal fun LyricScreen() {
             }
         }
         LazyColumn {
-            itemsIndexed(testList) { index, item ->
+            itemsIndexed(quizList) { index, item ->
                 val scale = remember { Animatable(1f) }
 
                 if (item.isVisible) {
@@ -79,35 +124,46 @@ internal fun LyricScreen() {
                         modifier = Modifier
                             .scale(scale.value)
                             .clickable {
-                                selectedIndex = index
+                                if (isChoiceListClick) {
+                                    return@clickable
+                                }
+                                isChoiceListClick = true
 
                                 val job = coroutineScope.launch {
                                     scale.animateTo(
-                                        targetValue = if (scale.isRunning) 1f else 0f,
+                                        targetValue = 0f,
                                         animationSpec = spring(
                                             dampingRatio = Spring.DampingRatioMediumBouncy,
-                                            stiffness = Spring.StiffnessLow
+                                            stiffness = Spring.StiffnessMedium
                                         )
                                     )
                                 }
 
                                 job.invokeOnCompletion {
-                                    if (index == selectedIndex) {
-                                        aList = aList
-                                            .toMutableList()
-                                            .apply { add(item) }
+                                    selectList = selectList
+                                        .toMutableList()
+                                        .apply { add(item) }
 
-                                        testList = testList
-                                            .toMutableList()
-                                            .apply { set(index, item.copy(isVisible = false)) }
+                                    quizList = quizList
+                                        .toMutableList()
+                                        .apply { set(index, item.copy(isVisible = false)) }
 
-                                        selectedIndex = -1
-                                    }
+                                    isChoiceListClick = false
                                 }
                             },
                         text = item.str,
                         fontSize = 20.sp
                     )
+
+                    LaunchedEffect(item) {
+                        scale.animateTo(
+                            targetValue = 1f,
+                            animationSpec = spring(
+                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                stiffness = Spring.StiffnessLow
+                            )
+                        )
+                    }
                 }
             }
         }
