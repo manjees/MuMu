@@ -36,6 +36,7 @@ import com.manjee.model.Lyric
 
 @Composable
 fun LyricRoute() {
+    // 세트
     LyricScreen()
 }
 
