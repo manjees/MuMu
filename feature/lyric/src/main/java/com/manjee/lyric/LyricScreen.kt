@@ -2,6 +2,7 @@
 
 package com.manjee.lyric
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ import com.manjee.model.Lyric
 
 @Composable
 fun LyricRoute() {
+    Log.i("LyricRoute", "test")
     LyricScreen()
 }
 
