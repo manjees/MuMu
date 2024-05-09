@@ -5,5 +5,6 @@ plugins {
     alias(libs.plugins.androidLibrary) apply false
     alias(libs.plugins.hiltPlugin) apply false
     alias(libs.plugins.jetbrainsKotlinJvm) apply false
+    alias(libs.plugins.googleGmsGoogleServices) apply false
 //    id("com.google.dagger.hilt.android") version "2.46.1" apply false
 }

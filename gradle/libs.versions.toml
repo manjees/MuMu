@@ -54,9 +54,11 @@ regacy-flexbox = "3.0.0"
 regacy-constraintlayout = "2.1.4"
 
 google-admob = "23.0.0"
-firebase-bom = "32.8.0"
+firebase-bom = "33.0.0"
 core = "1.13.0"
 jetbrainsKotlinJvm = "1.9.0"
+googleGmsGoogleServices = "4.4.1"
+firebaseDatabase = "21.0.0"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -157,6 +159,7 @@ firebase-message = { group = "com.google.firebase", name = "firebase-messaging-k
 firebase-dynamic-link = { group = "com.google.firebase", name = "firebase-dynamic-links-ktx" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
 androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 
 [bundles]
 
@@ -166,3 +169,4 @@ jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "k
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+googleGmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
