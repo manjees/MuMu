@@ -42,7 +42,7 @@ fun LyricItem(
         Button(
             modifier = Modifier
                 .scale(scale.value)
-                .height(32.dp),
+                .height(40.dp),
             onClick = {
                 if (isClicked) return@Button
                 isClicked = true
