@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
+    alias(libs.plugins.hiltPlugin)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -26,5 +29,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
+
+    implementation(libs.androidx.core.ktx)
     implementation(libs.firebase.database)
+    implementation(libs.kotlinx.serialization.json)
+
+    // hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 }

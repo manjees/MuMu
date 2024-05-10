@@ -170,3 +170,5 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 googleGmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
