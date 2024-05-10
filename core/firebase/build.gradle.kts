@@ -38,4 +38,9 @@ dependencies {
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    // test
+    testImplementation(libs.junit4)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.kotlin)
 }

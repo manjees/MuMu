@@ -16,7 +16,7 @@ class LyricDatabase @Inject constructor(
     @Named(LYRIC_DATABASE) private val fireDb: DatabaseReference
 ) {
     operator fun invoke(callback: (BaseModel<List<LyricQuiz>>) -> Unit) {
-        var data = BaseFirebaseModel<List<LyricQuizDataModel>>()
+        var data: BaseFirebaseModel<List<LyricQuizDataModel>>
 
         fireDb.get().addOnSuccessListener { snapshot ->
             snapshot.value?.let { value ->
