@@ -2,6 +2,7 @@
 
 package com.manjee.lyric
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -63,6 +65,7 @@ internal fun LyricScreen(
 
     var submitButtonEnabled by remember { mutableStateOf(false) }
     var selectList by remember { mutableStateOf(listOf<Lyric>()) }
+    var quizIndex by remember { mutableIntStateOf(0) }
 
     when (uiState) {
         is LyricScreenUiState.Loading -> {
@@ -79,6 +82,14 @@ internal fun LyricScreen(
         }
 
         is LyricScreenUiState.Success -> {
+            val data = uiState.data
+
+            if (quizIndex != uiState.currentQuizIndex) {
+                quizIndex = uiState.currentQuizIndex
+                selectList = listOf()
+                submitButtonEnabled = false
+            }
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -113,7 +124,8 @@ internal fun LyricScreen(
                         LyricItem(
                             lyric = item,
                             onComplete = {
-                                uiState.data.first().answerList = uiState.data.first().answerList
+
+                                data.answerList = data.answerList
                                     .toMutableList()
                                     .map {
                                         if (it.index == item.index) {
@@ -154,8 +166,8 @@ internal fun LyricScreen(
                             .padding(15.dp),
                         horizontalArrangement = Arrangement.spacedBy(1.dp)
                     ) {
-                        repeat(uiState.data.first().answerList.size) { index ->
-                            val item = uiState.data.first().answerList[index]
+                        repeat(data.answerList.size) { index ->
+                            val item = data.answerList[index]
 
                             if (item.isVisible) {
                                 LyricItem(
@@ -166,8 +178,8 @@ internal fun LyricScreen(
                                             .toMutableList()
                                             .apply { add(item) }
 
-                                        uiState.data.first().answerList =
-                                            uiState.data.first().answerList
+                                        uiState.data.answerList =
+                                            uiState.data.answerList
                                                 .toMutableList()
                                                 .apply { set(index, item.copy(isVisible = false)) }
 
@@ -198,7 +210,7 @@ internal fun LyricScreen(
                     onClick = {
                         checkAnswer(
                             selectList,
-                            uiState.data.first().answer
+                            uiState.data.answer
                         )
                     },
                     enabled = submitButtonEnabled
@@ -222,21 +234,19 @@ internal fun LyricScreen(
 internal fun LyricScreenPreview() {
     LyricScreen(
         uiState = LyricScreenUiState.Success(
-            listOf(
-                LyricQuiz(
-                    answer = "HELLOMY",
-                    answerList = listOf(
-                        Lyric(1, "HI"),
-                        Lyric(2, "HELLO"),
-                        Lyric(3, "MY"),
-                        Lyric(4, "NAME"),
-                        Lyric(5, "IS"),
-                        Lyric(6, "MANJEE")
-                    ),
-                    stringTime = 0f,
-                    endTime = 0f,
-                    videoId = "123"
-                )
+            LyricQuiz(
+                answer = "HELLOMY",
+                answerList = listOf(
+                    Lyric(1, "HI"),
+                    Lyric(2, "HELLO"),
+                    Lyric(3, "MY"),
+                    Lyric(4, "NAME"),
+                    Lyric(5, "IS"),
+                    Lyric(6, "MANJEE")
+                ),
+                stringTime = 0f,
+                endTime = 0f,
+                videoId = "123"
             )
         )
     )

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manjee.firebase.database.LyricDatabase
 import com.manjee.model.Lyric
+import com.manjee.model.LyricQuiz
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +21,10 @@ class LyricViewModel @Inject constructor(
         MutableStateFlow(LyricScreenUiState.Loading)
     val uiState: StateFlow<LyricScreenUiState> = _uiState
 
+    private var quizList = mutableListOf<LyricQuiz>()
+    private var currentQuizIndex = 0
+    private var correctCount = 0
+
     init {
         getLyricData()
     }
@@ -27,7 +32,9 @@ class LyricViewModel @Inject constructor(
     private fun getLyricData() = viewModelScope.launch {
         lyricDatabase {
             it.data?.let { data ->
-                _uiState.value = LyricScreenUiState.Success(data)
+                quizList.addAll(data)
+
+                _uiState.value = LyricScreenUiState.Success(data.first(), quizCount = data.size)
             } ?: run {
                 _uiState.value = LyricScreenUiState.Error(it.error ?: "Error")
             }
@@ -35,7 +42,34 @@ class LyricViewModel @Inject constructor(
     }
 
     fun checkAnswer(answerList: List<Lyric>, answer: String) {
-        Log.i(TAG, "answerList: $answerList, answer: $answer")
+        if (currentQuizIndex < quizList.size) {
+            val myAnswer = answerList.map { it.str }.joinToString(separator = "") { it }
+
+            if (myAnswer == answer) {
+                Log.d(TAG, "Correct")
+                correctCount++
+            } else {
+                Log.d(TAG, "Incorrect")
+            }
+
+            currentQuizIndex++
+            if (currentQuizIndex < quizList.size) {
+                _uiState.value = LyricScreenUiState.Success(
+                    quizList[currentQuizIndex],
+                    currentQuizIndex = currentQuizIndex,
+                    correctCount = correctCount
+                )
+            } else {
+                // All quizzes completed
+                _uiState.value = LyricScreenUiState.Success(
+                    quizList.last(),
+                    currentQuizIndex = currentQuizIndex,
+                    correctCount = correctCount
+                )
+            }
+        } else {
+            Log.d(TAG, "All quizzes completed")
+        }
     }
 
     companion object {
