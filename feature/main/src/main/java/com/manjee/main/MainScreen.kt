@@ -75,8 +75,8 @@ internal fun MainScreen() {
         HorizontalPager(
             state = pagerState,
             contentPadding = PaddingValues(
-                horizontal = configuration.screenWidthDp.dp / 8,
-                vertical = 0.dp
+                start = (configuration.screenWidthDp.dp / 4) - 8.dp, // 시작 패딩 설정
+                end = (configuration.screenWidthDp.dp / 4) - 8.dp // 끝 패딩 설정
             ),
         ) {
             val theme: QuizTheme = QuizTheme.entries[it]
