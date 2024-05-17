@@ -17,14 +17,14 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = Grey40,
-    secondary = Yellow80,
+    secondary = ManduGreen50,
     tertiary = Grey80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Yellow40,
+    primary = ManduGreen50,
     secondary = Grey40,
-    tertiary = Yellow40
+    tertiary = ManduGreen50
 )
 
 @Composable
@@ -46,8 +46,8 @@ fun MuMuTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = Yellow10.toArgb()
-            window.navigationBarColor = Yellow10.toArgb()
+            window.statusBarColor = ManduGreen50.toArgb()
+            window.navigationBarColor = ManduGreen50.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }

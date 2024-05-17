@@ -81,3 +81,13 @@ val Brown60 = Color(0xFF6D4C41)
 val Brown70 = Color(0xFF5D4037)
 val Brown80 = Color(0xFF4E342E)
 val Brown90 = Color(0xFF3E2723)
+
+val ManduGreen10 = Color(0xFFE5EDE7)
+val ManduGreen20 = Color(0xFFCCDCCA)
+val ManduGreen30 = Color(0xFFB2CAB0)
+val ManduGreen40 = Color(0xFF99B994)
+val ManduGreen50 = Color(0xFF5A7C5F) // Original color
+val ManduGreen60 = Color(0xFF669661)
+val ManduGreen70 = Color(0xFF4D8548)
+val ManduGreen80 = Color(0xFF336430)
+val ManduGreen90 = Color(0xFF19431B)

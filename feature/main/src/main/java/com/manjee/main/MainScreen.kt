@@ -34,6 +34,7 @@ import com.manjee.designsystem.ui.Green20
 import com.manjee.designsystem.ui.Grey40
 import com.manjee.designsystem.ui.Grey60
 import com.manjee.designsystem.ui.Grey90
+import com.manjee.designsystem.ui.ManduGreen50
 import com.manjee.designsystem.ui.Pink20
 import com.manjee.designsystem.ui.Red20
 import com.manjee.designsystem.ui.Yellow10
@@ -56,7 +57,7 @@ internal fun MainScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Yellow10)
+            .background(ManduGreen50)
     ) {
         NoPaddingText(
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),

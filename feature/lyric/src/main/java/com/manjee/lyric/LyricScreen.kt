@@ -37,6 +37,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.manjee.designsystem.ui.Green60
 import com.manjee.designsystem.ui.Grey90
+import com.manjee.designsystem.ui.ManduGreen20
+import com.manjee.designsystem.ui.ManduGreen50
+import com.manjee.designsystem.ui.ManduGreen70
 import com.manjee.designsystem.ui.Yellow10
 import com.manjee.designsystem.ui.Yellow20
 import com.manjee.designsystem.ui.Yellow70
@@ -93,7 +96,7 @@ internal fun LyricScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Yellow10)
+                    .background(ManduGreen50)
             ) {
                 Box(
                     modifier = Modifier
@@ -203,9 +206,9 @@ internal fun LyricScreen(
                         .padding(horizontal = 16.dp),
                     colors = ButtonColors(
                         contentColor = Color.Black,
-                        containerColor = Yellow70,
+                        containerColor = ManduGreen70,
                         disabledContentColor = Color.Black,
-                        disabledContainerColor = Yellow20
+                        disabledContainerColor = ManduGreen20
                     ),
                     onClick = {
                         checkAnswer(
