@@ -1,5 +1,6 @@
 package com.manjee.title
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,15 +38,27 @@ fun TitleScreen() {
             .fillMaxSize()
             .background(ManduGreen50)
     ) {
-        Box(
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height((configuration.screenHeightDp * 0.25).dp)
-                .background(
-                    Yellow30,
-                    shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
-                )
-        )
+                .height((configuration.screenHeightDp * 0.25).dp),
+            colors = CardColors(
+                containerColor = Yellow30,
+                contentColor = Color.Black,
+                disabledContentColor = Color.Gray,
+                disabledContainerColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(
+                topStart = 0.dp,
+                topEnd = 0.dp,
+                bottomEnd = 40.dp,
+                bottomStart = 40.dp
+            ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 10.dp
+            ),
+            border = BorderStroke(1.dp, Color.Black),
+        ) {}
         Column(
             modifier = Modifier
                 .fillMaxSize()
