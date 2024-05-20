@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import com.manjee.designsystem.ui.MuMuTheme
 import com.manjee.lyric.LyricRoute
 import com.manjee.main.MainRoute
+import com.manjee.title.TitleRoute
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +24,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    MainRoute()
-                    LyricRoute()
+//                    LyricRoute()
+                    TitleRoute()
                 }
             }
         }

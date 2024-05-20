@@ -56,6 +56,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":feature:main"))
     implementation(project(":feature:lyric"))
+    implementation(project(":feature:title"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -44,10 +44,14 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":core:model"))
+    implementation(project(":core:firebase"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.compose.ui)
@@ -57,4 +61,5 @@ dependencies {
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
 }

@@ -2,7 +2,6 @@
 
 package com.manjee.lyric
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,9 +39,6 @@ import com.manjee.designsystem.ui.Grey90
 import com.manjee.designsystem.ui.ManduGreen20
 import com.manjee.designsystem.ui.ManduGreen50
 import com.manjee.designsystem.ui.ManduGreen70
-import com.manjee.designsystem.ui.Yellow10
-import com.manjee.designsystem.ui.Yellow20
-import com.manjee.designsystem.ui.Yellow70
 import com.manjee.lyric.component.LyricItem
 import com.manjee.model.Lyric
 import com.manjee.model.LyricQuiz
