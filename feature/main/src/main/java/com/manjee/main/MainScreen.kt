@@ -4,6 +4,7 @@ package com.manjee.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,12 +44,21 @@ import com.manjee.main.component.RankItem
 import kotlin.math.absoluteValue
 
 @Composable
-fun MainRoute() {
-    MainScreen()
+fun MainRoute(
+    navigateToLyric: () -> Unit,
+    navigateToTitle: () -> Unit
+) {
+    MainScreen(
+        navigateToLyric = navigateToLyric,
+        navigateToTitle = navigateToTitle
+    )
 }
 
 @Composable
-internal fun MainScreen() {
+internal fun MainScreen(
+    navigateToLyric: () -> Unit,
+    navigateToTitle: () -> Unit
+) {
     val configuration = LocalConfiguration.current
     val pagerState = rememberPagerState(0, pageCount = { QuizTheme.entries.size })
 
@@ -100,6 +110,12 @@ internal fun MainScreen() {
                             fraction = 1f - pageOffset.coerceIn(0f, 1f)
                         )
                     }
+                    .clickable {
+                        when (it) {
+                            0 -> navigateToTitle()
+                            1 -> navigateToLyric()
+                        }
+                    }
             ) {
                 Box(
                     modifier = Modifier
@@ -143,5 +159,5 @@ internal fun MainScreen() {
 @Composable
 @Preview
 fun MainScreenPreview() {
-    MainScreen()
+    MainScreen({}, {})
 }

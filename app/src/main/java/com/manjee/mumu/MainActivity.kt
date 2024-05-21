@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import com.manjee.designsystem.ui.MuMuTheme
 import com.manjee.lyric.LyricRoute
 import com.manjee.main.MainRoute
+import com.manjee.main.MumuNavHost
 import com.manjee.title.TitleRoute
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,9 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    MainRoute()
-//                    LyricRoute()
-                    TitleRoute()
+                    MumuNavHost()
                 }
             }
         }
