@@ -1,7 +1,9 @@
 package com.manjee.title
 
+import androidx.compose.runtime.Stable
 import com.manjee.model.TitleQuiz
 
+@Stable
 interface TitleScreenUiState {
     data object Loading: TitleScreenUiState
     data class Error(val message: String): TitleScreenUiState

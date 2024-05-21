@@ -42,7 +42,7 @@ mockkKotlin = "5.3.1"
 
 coroutine = "1.8.0"
 playServiceAds = "18.0.1"
-noCaptionYoutubePlayer = "0.0.8"
+noCaptionYoutubePlayer = "0.0.9"
 lottie = "6.3.0"
 lottieCompose = "6.3.0"
 
@@ -130,7 +130,7 @@ coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-
 play-service-ads-identifier = { group = "com.google.android.gms", name = "play-services-ads-identifier", version.ref = "playServiceAds" }
 
 # youtube player
-manjee-youtube-player = { group = "com.github.manjee-official", name = "NoCaptionYoutubePlayer", version.ref = "noCaptionYoutubePlayer" }
+manjee-youtube-player = { group = "com.github.manjees", name = "NoCaptionYoutubePlayer", version.ref = "noCaptionYoutubePlayer" }
 
 # lottie
 airbnb-lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
