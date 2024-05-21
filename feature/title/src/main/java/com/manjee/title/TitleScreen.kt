@@ -391,13 +391,23 @@ fun TitleScreen(
                                         }
                                     )
                                 }
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(if (isShowVideoChecked) boxHeight else 250.dp)
-                                        .align(Alignment.TopCenter)
-                                        .background(boxColor, RoundedCornerShape(20.dp))
-                                )
+                                if (remainTime == 30) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(250.dp)
+                                            .align(Alignment.TopCenter)
+                                            .background(boxColor, RoundedCornerShape(20.dp))
+                                    )
+                                } else {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(if (isShowVideoChecked) boxHeight else 250.dp)
+                                            .align(Alignment.TopCenter)
+                                            .background(boxColor, RoundedCornerShape(20.dp))
+                                    )
+                                }
                             }
                         }
                     }
