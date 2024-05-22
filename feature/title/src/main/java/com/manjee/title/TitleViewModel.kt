@@ -1,11 +1,8 @@
 package com.manjee.title
 
-import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manjee.firebase.database.TitleDatabase
-import com.manjee.model.Title
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,10 +11,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TitleViewModel @Inject constructor(
-    private val titleDatabase: TitleDatabase
+    private val titleDatabase: TitleDatabase,
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<TitleScreenUiState> = MutableStateFlow(TitleScreenUiState.Loading)
+    private val _uiState: MutableStateFlow<TitleScreenUiState> =
+        MutableStateFlow(TitleScreenUiState.Loading)
     val uiState: StateFlow<TitleScreenUiState> = _uiState
 
     init {
@@ -39,7 +37,11 @@ class TitleViewModel @Inject constructor(
 
         val isEnd = currentState.currentQuizIndex + 1 == currentState.data.choiceList.size
 
-        _uiState.value = currentState.copy(correctCount = currentState.correctCount + 1, currentQuizIndex = currentState.currentQuizIndex + 1, isEnd = isEnd)
+        _uiState.value = currentState.copy(
+            correctCount = currentState.correctCount + 1,
+            currentQuizIndex = currentState.currentQuizIndex + 1,
+            isEnd = isEnd
+        )
     }
 
     fun incorrectAnswer() {
@@ -47,6 +49,10 @@ class TitleViewModel @Inject constructor(
 
         val isEnd = currentState.currentQuizIndex + 1 == currentState.data.choiceList.size
 
-        _uiState.value = currentState.copy(incorrectCount = currentState.incorrectCount + 1, currentQuizIndex = currentState.currentQuizIndex + 1, isEnd = isEnd)
+        _uiState.value = currentState.copy(
+            incorrectCount = currentState.incorrectCount + 1,
+            currentQuizIndex = currentState.currentQuizIndex + 1,
+            isEnd = isEnd
+        )
     }
 }
