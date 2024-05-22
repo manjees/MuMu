@@ -21,10 +21,6 @@ class LyricViewModel @Inject constructor(
         MutableStateFlow(LyricScreenUiState.Loading)
     val uiState: StateFlow<LyricScreenUiState> = _uiState
 
-    private var quizList = mutableListOf<LyricQuiz>()
-    private var currentQuizIndex = 0
-    private var correctCount = 0
-
     init {
         getLyricData()
     }
@@ -32,9 +28,7 @@ class LyricViewModel @Inject constructor(
     private fun getLyricData() = viewModelScope.launch {
         lyricDatabase {
             it.data?.let { data ->
-                quizList.addAll(data)
-
-                _uiState.value = LyricScreenUiState.Success(data.first(), quizCount = data.size)
+                _uiState.value = LyricScreenUiState.Success(data, quizCount = data.size)
             } ?: run {
                 _uiState.value = LyricScreenUiState.Error(it.error ?: "Error")
             }
@@ -42,34 +36,20 @@ class LyricViewModel @Inject constructor(
     }
 
     fun checkAnswer(answerList: List<Lyric>, answer: String) {
-        if (currentQuizIndex < quizList.size) {
-            val myAnswer = answerList.map { it.str }.joinToString(separator = "") { it }
+        val currentState = _uiState.value as? LyricScreenUiState.Success ?: return
 
-            if (myAnswer == answer) {
-                Log.d(TAG, "Correct")
-                correctCount++
-            } else {
-                Log.d(TAG, "Incorrect")
-            }
+        val myAnswer = answerList.map { it.str }.joinToString(separator = "") { it }
+        val isCorrect = myAnswer == answer
 
-            currentQuizIndex++
-            if (currentQuizIndex < quizList.size) {
-                _uiState.value = LyricScreenUiState.Success(
-                    quizList[currentQuizIndex],
-                    currentQuizIndex = currentQuizIndex,
-                    correctCount = correctCount
-                )
-            } else {
-                // All quizzes completed
-                _uiState.value = LyricScreenUiState.Success(
-                    quizList.last(),
-                    currentQuizIndex = currentQuizIndex,
-                    correctCount = correctCount
-                )
-            }
-        } else {
-            Log.d(TAG, "All quizzes completed")
+        if (currentState.currentQuizIndex == currentState.quizCount - 1) {
+            Log.d(TAG, "Quiz finished")
+            return
         }
+
+        _uiState.value = currentState.copy(
+            correctCount = currentState.correctCount + if (isCorrect) 1 else 0,
+            currentQuizIndex = currentState.currentQuizIndex + 1
+        )
     }
 
     companion object {

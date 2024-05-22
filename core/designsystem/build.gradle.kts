@@ -41,4 +41,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.core)
+
+    implementation(libs.manjee.youtube.player)
 }

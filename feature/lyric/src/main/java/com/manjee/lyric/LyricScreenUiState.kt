@@ -9,7 +9,7 @@ interface LyricScreenUiState {
     data object Loading : LyricScreenUiState
     data class Error(val message: String) : LyricScreenUiState
     data class Success(
-        var data: LyricQuiz,
+        var data: List<LyricQuiz>,
         var quizCount: Int = 0,
         var correctCount: Int = 0,
         var currentQuizIndex: Int = 0,

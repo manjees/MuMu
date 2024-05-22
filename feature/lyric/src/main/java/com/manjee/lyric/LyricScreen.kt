@@ -2,22 +2,29 @@
 
 package com.manjee.lyric
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,12 +33,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.manjee.designsystem.ui.Green60
@@ -39,9 +50,17 @@ import com.manjee.designsystem.ui.Grey90
 import com.manjee.designsystem.ui.ManduGreen20
 import com.manjee.designsystem.ui.ManduGreen50
 import com.manjee.designsystem.ui.ManduGreen70
+import com.manjee.lyric.util.CustomPlayerUiController
 import com.manjee.lyric.component.LyricItem
 import com.manjee.model.Lyric
 import com.manjee.model.LyricQuiz
+import com.manjee.nocaptionyoutubeplayer.PlayerConstants
+import com.manjee.nocaptionyoutubeplayer.YouTubePlayer
+import com.manjee.nocaptionyoutubeplayer.listeners.AbstractYouTubePlayerListener
+import com.manjee.nocaptionyoutubeplayer.options.IFramePlayerOptions
+import com.manjee.nocaptionyoutubeplayer.utils.YouTubePlayerTracker
+import com.manjee.nocaptionyoutubeplayer.utils.loadOrCueVideo
+import com.manjee.nocaptionyoutubeplayer.views.YouTubePlayerView
 
 @Composable
 fun LyricRoute(
@@ -61,6 +80,10 @@ internal fun LyricScreen(
     checkAnswer: (List<Lyric>, String) -> Unit = { _, _ -> }
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val lifecycle = lifecycleOwner.lifecycle
+
+    var currentYouTubePlayer by remember { mutableStateOf<YouTubePlayer?>(null) }
 
     var submitButtonEnabled by remember { mutableStateOf(false) }
     var selectList by remember { mutableStateOf(listOf<Lyric>()) }
@@ -87,6 +110,15 @@ internal fun LyricScreen(
                 quizIndex = uiState.currentQuizIndex
                 selectList = listOf()
                 submitButtonEnabled = false
+
+                currentYouTubePlayer?.let {
+                    it.pause()
+                    it.loadOrCueVideo(
+                        lifecycle,
+                        data[quizIndex].videoId,
+                        data[quizIndex].stringTime
+                    )
+                }
             }
 
             Column(
@@ -97,20 +129,108 @@ internal fun LyricScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(250.dp)
+                        .wrapContentHeight()
                         .background(Green60)
-                )
+                ) {
+                    // TODO Preview 이용시 주석
+                    AndroidView(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        factory = {
+                            YouTubePlayerView(it).apply {
+                                enableAutomaticInitialization = false
+                                lifecycleOwner.lifecycle.addObserver(this)
+
+                                val tracker = YouTubePlayerTracker()
+                                addYouTubePlayerListener(tracker)
+
+                                val youtubeListener =
+                                    object : AbstractYouTubePlayerListener() {
+                                        override fun onReady(youTubePlayer: YouTubePlayer) {
+                                            super.onReady(youTubePlayer)
+
+                                            val customPlayer =
+                                                inflateCustomPlayerUi(R.layout.custom_player_ui)
+                                            val customPlayerUiController =
+                                                CustomPlayerUiController(
+                                                    context,
+                                                    customPlayer,
+                                                    youTubePlayer,
+                                                    this@apply
+                                                ).apply {
+                                                    initViews(customPlayer)
+                                                }
+
+                                            youTubePlayer.apply {
+                                                addListener(customPlayerUiController)
+                                                setPlaybackRate(PlayerConstants.PlaybackRate.RATE_1)
+                                                loadOrCueVideo(
+                                                    lifecycle,
+                                                    data[quizIndex].videoId,
+                                                    data[quizIndex].stringTime
+                                                )
+                                            }
+
+                                            currentYouTubePlayer = youTubePlayer
+                                        }
+
+                                        override fun onCurrentSecond(
+                                            youTubePlayer: YouTubePlayer,
+                                            second: Float
+                                        ) {
+                                            super.onCurrentSecond(youTubePlayer, second)
+
+                                            if (second >= data[quizIndex].endTime) {
+                                                youTubePlayer.pause()
+                                            }
+                                        }
+                                    }
+
+                                val options: IFramePlayerOptions =
+                                    IFramePlayerOptions.Builder().controls(0)
+                                        .build()
+                                initialize(youtubeListener, options)
+                            }
+                        }
+                    )
+                }
                 Spacer(
                     modifier = Modifier
                         .height(4.dp)
                 )
-                Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = "Your Answer",
-                    color = Grey90,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "Your Answer",
+                        color = Grey90,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    IconButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            currentYouTubePlayer?.seekTo(data[quizIndex].stringTime)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Refresh, contentDescription = "rewind",
+                            tint = Grey90
+                        )
+                    }
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "Quiz 1/4",
+                        color = Grey90,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.End
+                    )
+                }
                 FlowRow(
                     modifier = Modifier
                         .fillMaxSize()
@@ -124,7 +244,7 @@ internal fun LyricScreen(
                             lyric = item,
                             onComplete = {
 
-                                data.answerList = data.answerList
+                                data[quizIndex].answerList = data[quizIndex].answerList
                                     .toMutableList()
                                     .map {
                                         if (it.index == item.index) {
@@ -165,8 +285,8 @@ internal fun LyricScreen(
                             .padding(15.dp),
                         horizontalArrangement = Arrangement.spacedBy(1.dp)
                     ) {
-                        repeat(data.answerList.size) { index ->
-                            val item = data.answerList[index]
+                        repeat(data[uiState.currentQuizIndex].answerList.size) { index ->
+                            val item = data[uiState.currentQuizIndex].answerList[index]
 
                             if (item.isVisible) {
                                 LyricItem(
@@ -177,8 +297,8 @@ internal fun LyricScreen(
                                             .toMutableList()
                                             .apply { add(item) }
 
-                                        uiState.data.answerList =
-                                            uiState.data.answerList
+                                        uiState.data[quizIndex].answerList =
+                                            uiState.data[quizIndex].answerList
                                                 .toMutableList()
                                                 .apply { set(index, item.copy(isVisible = false)) }
 
@@ -209,7 +329,7 @@ internal fun LyricScreen(
                     onClick = {
                         checkAnswer(
                             selectList,
-                            uiState.data.answer
+                            uiState.data[uiState.currentQuizIndex].answer
                         )
                     },
                     enabled = submitButtonEnabled
@@ -233,19 +353,21 @@ internal fun LyricScreen(
 internal fun LyricScreenPreview() {
     LyricScreen(
         uiState = LyricScreenUiState.Success(
-            LyricQuiz(
-                answer = "HELLOMY",
-                answerList = listOf(
-                    Lyric(1, "HI"),
-                    Lyric(2, "HELLO"),
-                    Lyric(3, "MY"),
-                    Lyric(4, "NAME"),
-                    Lyric(5, "IS"),
-                    Lyric(6, "MANJEE")
-                ),
-                stringTime = 0f,
-                endTime = 0f,
-                videoId = "123"
+            listOf(
+                LyricQuiz(
+                    answer = "HELLOMY",
+                    answerList = listOf(
+                        Lyric(1, "HI"),
+                        Lyric(2, "HELLO"),
+                        Lyric(3, "MY"),
+                        Lyric(4, "NAME"),
+                        Lyric(5, "IS"),
+                        Lyric(6, "MANJEE")
+                    ),
+                    stringTime = 0f,
+                    endTime = 0f,
+                    videoId = "123"
+                )
             )
         )
     )
