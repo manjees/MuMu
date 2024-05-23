@@ -5,9 +5,9 @@ import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class RankingDataModel(
-    val id: Int,
+    val id: Long,
     val name: String,
-    val score: Int
+    val score: Long
 ) {
 
     @Exclude

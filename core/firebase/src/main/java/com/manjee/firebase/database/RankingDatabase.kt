@@ -1,8 +1,10 @@
 package com.manjee.firebase.database
 
+import android.util.Log
 import com.google.firebase.database.DatabaseReference
 import com.manjee.firebase.FirebaseConst.RANKING_DATABASE
 import com.manjee.firebase.model.RankingDataModel
+import com.manjee.model.Artist
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -126,6 +128,21 @@ class RankingDatabase @Inject constructor(
         }
 
         fireDb.setValue(dataMap)
+    }
+
+    fun getArtistData(callback: (List<Artist>) -> Unit) {
+        fireDb.get().addOnSuccessListener {
+            val dataList = it.value as List<Map<String, Any>>?
+            val artistList = dataList?.map { dataMap ->
+                val id = dataMap["id"] as Long
+                val name = dataMap["name"] as String
+                val score = dataMap["score"] as Long
+
+                Artist(id, name, score)
+            } ?: emptyList()
+
+            callback(artistList)
+        }
     }
 
     fun updateData() {

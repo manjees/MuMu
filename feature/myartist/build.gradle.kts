@@ -1,36 +1,25 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt")
     alias(libs.plugins.hiltPlugin)
-    alias(libs.plugins.googleGmsGoogleServices)
 }
 
 android {
-    namespace = "com.manjee.mumu"
+    namespace = "com.manjee.feature.myartist"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.manjee.mumu"
         minSdk = 28
-        targetSdk = 34
-        versionCode = Configuration.versionCode
-        versionName = Configuration.versionName
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
         }
+    }
+    buildFeatures {
+        compose = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -38,31 +27,31 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
+
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-opt-in=kotlin.RequiresOptIn",
+            // Enable experimental coroutines APIs, including Flow
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            // Enable experimental compose APIs
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
+        )
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.12"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
     }
 }
 
 dependencies {
     implementation(project(":core:designsystem"))
-    implementation(project(":feature:main"))
-    implementation(project(":feature:lyric"))
-    implementation(project(":feature:title"))
-    implementation(project(":feature:myartist"))
+    implementation(project(":core:firebase"))
+    implementation(project(":core:model"))
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.compose.ui)
