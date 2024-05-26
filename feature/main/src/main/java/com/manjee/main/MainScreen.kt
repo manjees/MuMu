@@ -18,8 +18,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -48,7 +53,7 @@ import kotlin.math.absoluteValue
 @Composable
 fun MainRoute(
     navigateToLyric: () -> Unit,
-    navigateToTitle: () -> Unit
+    navigateToTitle: () -> Unit,
 ) {
     MainScreen(
         navigateToLyric = navigateToLyric,
@@ -59,7 +64,7 @@ fun MainRoute(
 @Composable
 internal fun MainScreen(
     navigateToLyric: () -> Unit,
-    navigateToTitle: () -> Unit
+    navigateToTitle: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val pagerState = rememberPagerState(0, pageCount = { QuizTheme.entries.size })
@@ -83,7 +88,7 @@ internal fun MainScreen(
                 .padding(horizontal = 24.dp, vertical = 8.dp),
             text = stringResource(id = R.string.subtitle),
             fontSize = 14.sp,
-            color = Grey40
+            color = Grey90
         )
         HorizontalPager(
             state = pagerState,
@@ -157,9 +162,24 @@ internal fun MainScreen(
         }
     }
 
-    Box(modifier = Modifier
-        .fillMaxWidth().
-        height(100.dp).background(Yellow10))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
+            .background(Color.Transparent)
+    ) {
+        IconButton(
+            modifier = Modifier
+                .size(48.dp)
+                .align(Alignment.CenterEnd),
+            onClick = { /*TODO*/ }
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Person,
+                contentDescription = "Profile"
+            )
+        }
+    }
 }
 
 @Composable
