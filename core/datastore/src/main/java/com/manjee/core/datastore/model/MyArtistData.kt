@@ -5,7 +5,7 @@ import kotlinx.serialization.json.Json
 
 @Serializable
 data class MyArtistData(
-    val id: Int,
+    val id: Long,
     val name: String,
 )
 

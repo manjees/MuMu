@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.manjee.feature.myartist.navigation.MY_ARTIST_ROUTE
+import com.manjee.feature.myartist.navigation.myArtistScreen
 import com.manjee.lyric.navigation.LYRIC_ROUTE
 import com.manjee.lyric.navigation.lyricScreen
 import com.manjee.main.navigation.MAIN_ROUTE
@@ -22,9 +24,13 @@ fun MumuNavHost(
     ) {
         mainScreen(
             navigateToLyric = { navController.navigate(LYRIC_ROUTE) },
-            navigateToTitle = { navController.navigate(TITLE_ROUTE) }
+            navigateToTitle = { navController.navigate(TITLE_ROUTE) },
+            navigateToArtist = { navController.navigate(MY_ARTIST_ROUTE) }
         )
         lyricScreen()
         titleScreen()
+        myArtistScreen(
+            onBackPressed = { navController.popBackStack() }
+        )
     }
 }

@@ -14,14 +14,16 @@ fun NavController.navigateToMain(navOptions: NavOptions = NavOptions.Builder().b
 
 fun NavGraphBuilder.mainScreen(
     navigateToLyric: () -> Unit,
-    navigateToTitle: () -> Unit
+    navigateToTitle: () -> Unit,
+    navigateToArtist: () -> Unit
 ) {
     composable(
         route = MAIN_ROUTE
     ) {
         MainRoute(
             navigateToLyric = navigateToLyric,
-            navigateToTitle = navigateToTitle
+            navigateToTitle = navigateToTitle,
+            navigateToArtist = navigateToArtist
         )
     }
 }

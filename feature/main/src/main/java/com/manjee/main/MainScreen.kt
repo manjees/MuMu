@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,7 +24,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -36,6 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.manjee.designsystem.component.NoPaddingText
 import com.manjee.designsystem.ui.Blue20
 import com.manjee.designsystem.ui.Green20
@@ -45,26 +47,36 @@ import com.manjee.designsystem.ui.Grey90
 import com.manjee.designsystem.ui.ManduGreen50
 import com.manjee.designsystem.ui.Pink20
 import com.manjee.designsystem.ui.Red20
-import com.manjee.designsystem.ui.Yellow10
 import com.manjee.feature.splash.R
 import com.manjee.main.component.RankItem
+import com.manjee.main.component.RequestArtistDialog
 import kotlin.math.absoluteValue
 
 @Composable
 fun MainRoute(
+    viewModel: MainViewModel = hiltViewModel(),
     navigateToLyric: () -> Unit,
     navigateToTitle: () -> Unit,
+    navigateToArtist: () -> Unit
 ) {
+    val showDialog by viewModel.showArtistRequestDialog.collectAsStateWithLifecycle()
+
     MainScreen(
+        showDialog = showDialog,
+        updateShowDialog = viewModel::updateShowArtistRequestDialog,
         navigateToLyric = navigateToLyric,
-        navigateToTitle = navigateToTitle
+        navigateToTitle = navigateToTitle,
+        navigateToArtist = navigateToArtist
     )
 }
 
 @Composable
 internal fun MainScreen(
+    showDialog: Boolean,
+    updateShowDialog: () -> Unit,
     navigateToLyric: () -> Unit,
     navigateToTitle: () -> Unit,
+    navigateToArtist: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val pagerState = rememberPagerState(0, pageCount = { QuizTheme.entries.size })
@@ -76,13 +88,34 @@ internal fun MainScreen(
             .fillMaxSize()
             .background(ManduGreen50)
     ) {
-        NoPaddingText(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-            text = stringResource(id = R.string.title),
-            fontWeight = FontWeight.Bold,
-            fontSize = 52.sp,
-            color = Grey90
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .padding(start = 24.dp)
+        ) {
+            NoPaddingText(
+                modifier = Modifier
+                    .weight(1f),
+                text = stringResource(id = R.string.title),
+                fontWeight = FontWeight.Bold,
+                fontSize = 52.sp,
+                color = Grey90
+            )
+            IconButton(
+                modifier = Modifier
+                    .size(48.dp),
+                onClick = {
+                    navigateToArtist()
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Person,
+                    contentDescription = "Profile",
+                    tint = Grey90
+                )
+            }
+        }
         NoPaddingText(
             modifier = Modifier
                 .padding(horizontal = 24.dp, vertical = 8.dp),
@@ -162,28 +195,21 @@ internal fun MainScreen(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp)
-            .background(Color.Transparent)
-    ) {
-        IconButton(
-            modifier = Modifier
-                .size(48.dp)
-                .align(Alignment.CenterEnd),
-            onClick = { /*TODO*/ }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Person,
-                contentDescription = "Profile"
-            )
-        }
+    if (showDialog) {
+        RequestArtistDialog(
+            onCancel = {
+                updateShowDialog()
+            },
+            onConfirm = {
+                updateShowDialog()
+                navigateToArtist()
+            }
+        )
     }
 }
 
 @Composable
 @Preview
 fun MainScreenPreview() {
-    MainScreen({}, {})
+    MainScreen(false, {}, {}, {}, {})
 }

@@ -39,20 +39,25 @@ import com.manjee.model.Artist
 
 @Composable
 fun MyArtistRoute(
-    viewModel: MyArtistViewModel = hiltViewModel()
+    viewModel: MyArtistViewModel = hiltViewModel(),
+    onBackPressed: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     MyArtistScreen(
         uiState = uiState,
-        search = viewModel::search
+        search = viewModel::search,
+        updateMyArtist = viewModel::updateMyArtist,
+        onBackPressed = onBackPressed
     )
 }
 
 @Composable
 fun MyArtistScreen(
     uiState: MyArtistScreenUiState,
-    search: (String) -> Unit = {}
+    search: (String) -> Unit = {},
+    updateMyArtist: (Artist) -> Unit = {},
+    onBackPressed: () -> Unit = {}
 ) {
     when (uiState) {
         is MyArtistScreenUiState.Loading -> {
@@ -142,6 +147,8 @@ fun MyArtistScreen(
                     artist = selectArtist!!,
                     onConfirm = {
                         isConfirmDialogVisible = false
+                        updateMyArtist(it)
+                        onBackPressed()
                     },
                     onCancel = {
                         isConfirmDialogVisible = false
