@@ -5,8 +5,11 @@ import com.google.firebase.database.DatabaseReference
 import com.manjee.firebase.FirebaseConst.RANKING_DATABASE
 import com.manjee.firebase.model.RankingDataModel
 import com.manjee.model.Artist
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import javax.inject.Named
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class RankingDatabase @Inject constructor(
     @Named(RANKING_DATABASE) private val fireDb: DatabaseReference
@@ -130,7 +133,7 @@ class RankingDatabase @Inject constructor(
         fireDb.setValue(dataMap)
     }
 
-    fun getArtistData(callback: (List<Artist>) -> Unit) {
+    suspend fun getArtistData(): List<Artist> = suspendCancellableCoroutine { cont ->
         fireDb.get().addOnSuccessListener {
             val dataList = it.value as List<Map<String, Any>>?
             val artistList = dataList?.map { dataMap ->
@@ -141,7 +144,9 @@ class RankingDatabase @Inject constructor(
                 Artist(id, name, score)
             } ?: emptyList()
 
-            callback(artistList)
+            cont.resume(artistList)
+        }.addOnFailureListener {
+            cont.resumeWithException(it)
         }
     }
 

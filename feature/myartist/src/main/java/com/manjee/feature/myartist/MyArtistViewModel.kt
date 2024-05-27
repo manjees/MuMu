@@ -29,10 +29,11 @@ class MyArtistViewModel @Inject constructor(
     }
 
     private fun getArtistList() = viewModelScope.launch {
-        rankingDataBase.getArtistData {
-            artistList.addAll(it)
-
-            _uiState.value = MyArtistScreenUiState.Success(it)
+        try {
+            val artistList = rankingDataBase.getArtistData()
+            _uiState.value = MyArtistScreenUiState.Success(artistList)
+        } catch (e: Exception) {
+            _uiState.value = MyArtistScreenUiState.Error(e.message ?: "An error occurred")
         }
     }
 

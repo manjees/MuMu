@@ -28,6 +28,7 @@ android {
 dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:datastore"))
+    implementation(project(":core:firebase"))
 
     implementation(libs.inject)
     implementation(libs.coroutines.core)

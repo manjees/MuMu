@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -50,6 +51,7 @@ import com.manjee.designsystem.ui.Red20
 import com.manjee.feature.splash.R
 import com.manjee.main.component.RankItem
 import com.manjee.main.component.RequestArtistDialog
+import com.manjee.model.Artist
 import kotlin.math.absoluteValue
 
 @Composable
@@ -59,10 +61,10 @@ fun MainRoute(
     navigateToTitle: () -> Unit,
     navigateToArtist: () -> Unit
 ) {
-    val showDialog by viewModel.showArtistRequestDialog.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     MainScreen(
-        showDialog = showDialog,
+        uiState = uiState,
         updateShowDialog = viewModel::updateShowArtistRequestDialog,
         navigateToLyric = navigateToLyric,
         navigateToTitle = navigateToTitle,
@@ -72,7 +74,7 @@ fun MainRoute(
 
 @Composable
 internal fun MainScreen(
-    showDialog: Boolean,
+    uiState: MainScreenUiState,
     updateShowDialog: () -> Unit,
     navigateToLyric: () -> Unit,
     navigateToTitle: () -> Unit,
@@ -83,133 +85,148 @@ internal fun MainScreen(
 
     val cardColorList = listOf(Red20, Green20, Blue20, Pink20)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ManduGreen50)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .padding(start = 24.dp)
-        ) {
-            NoPaddingText(
-                modifier = Modifier
-                    .weight(1f),
-                text = stringResource(id = R.string.title),
-                fontWeight = FontWeight.Bold,
-                fontSize = 52.sp,
-                color = Grey90
+    when(uiState) {
+        is MainScreenUiState.Loading -> {
+            // Loading
+        }
+        is MainScreenUiState.Error -> {
+            Text(
+                text = "Error: ${uiState.message}",
+                color = Grey90,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
             )
-            IconButton(
+        }
+        is MainScreenUiState.Success -> {
+            Column(
                 modifier = Modifier
-                    .size(48.dp),
-                onClick = {
-                    navigateToArtist()
-                }
+                    .fillMaxSize()
+                    .background(ManduGreen50)
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Person,
-                    contentDescription = "Profile",
-                    tint = Grey90
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                        .padding(start = 24.dp)
+                ) {
+                    NoPaddingText(
+                        modifier = Modifier
+                            .weight(1f),
+                        text = stringResource(id = R.string.title),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 52.sp,
+                        color = Grey90
+                    )
+                    IconButton(
+                        modifier = Modifier
+                            .size(48.dp),
+                        onClick = {
+                            navigateToArtist()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Person,
+                            contentDescription = "Profile",
+                            tint = Grey90
+                        )
+                    }
+                }
+                NoPaddingText(
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp, vertical = 8.dp),
+                    text = stringResource(id = R.string.subtitle),
+                    fontSize = 14.sp,
+                    color = Grey90
+                )
+                HorizontalPager(
+                    state = pagerState,
+                    contentPadding = PaddingValues(
+                        start = (configuration.screenWidthDp.dp / 4) - 8.dp, // 시작 패딩 설정
+                        end = (configuration.screenWidthDp.dp / 4) - 8.dp // 끝 패딩 설정
+                    ),
+                ) {
+                    val theme: QuizTheme = QuizTheme.entries[it]
+                    val shadow = if (it == pagerState.currentPage) 15.dp else 0.dp
+
+                    Card(
+                        Modifier
+                            .size(300.dp)
+                            .padding(16.dp)
+                            .shadow(shadow, shape = RoundedCornerShape(16.dp))
+                            .graphicsLayer {
+                                val pageOffset = (
+                                        (pagerState.currentPage - it) + pagerState
+                                            .currentPageOffsetFraction
+                                        ).absoluteValue
+
+                                alpha = lerp(
+                                    start = 0.5f,
+                                    stop = 1f,
+                                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                )
+                            }
+                            .clickable {
+                                when (it) {
+                                    0 -> navigateToTitle()
+                                    1 -> navigateToLyric()
+                                }
+                            }
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(cardColorList[it])
+                                .fillMaxSize()
+                                .padding(16.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                NoPaddingText(
+                                    text = theme.title,
+                                    color = Grey60,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                NoPaddingText(
+                                    text = theme.subTitle,
+                                    color = Grey40,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
+                        }
+                    }
+                }
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(Color.Transparent)
+                ) {
+                    items(uiState.rankingList.size) {
+                        RankItem(uiState.myArtist, uiState.rankingList[it])
+                    }
+                }
+            }
+
+            if (uiState.isShowArtistDialog) {
+                RequestArtistDialog(
+                    onCancel = {
+                        updateShowDialog()
+                    },
+                    onConfirm = {
+                        updateShowDialog()
+                        navigateToArtist()
+                    }
                 )
             }
         }
-        NoPaddingText(
-            modifier = Modifier
-                .padding(horizontal = 24.dp, vertical = 8.dp),
-            text = stringResource(id = R.string.subtitle),
-            fontSize = 14.sp,
-            color = Grey90
-        )
-        HorizontalPager(
-            state = pagerState,
-            contentPadding = PaddingValues(
-                start = (configuration.screenWidthDp.dp / 4) - 8.dp, // 시작 패딩 설정
-                end = (configuration.screenWidthDp.dp / 4) - 8.dp // 끝 패딩 설정
-            ),
-        ) {
-            val theme: QuizTheme = QuizTheme.entries[it]
-            val shadow = if (it == pagerState.currentPage) 15.dp else 0.dp
-
-            Card(
-                Modifier
-                    .size(300.dp)
-                    .padding(16.dp)
-                    .shadow(shadow, shape = RoundedCornerShape(16.dp))
-                    .graphicsLayer {
-                        val pageOffset = (
-                                (pagerState.currentPage - it) + pagerState
-                                    .currentPageOffsetFraction
-                                ).absoluteValue
-
-                        alpha = lerp(
-                            start = 0.5f,
-                            stop = 1f,
-                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                        )
-                    }
-                    .clickable {
-                        when (it) {
-                            0 -> navigateToTitle()
-                            1 -> navigateToLyric()
-                        }
-                    }
-            ) {
-                Box(
-                    modifier = Modifier
-                        .background(cardColorList[it])
-                        .fillMaxSize()
-                        .padding(16.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        NoPaddingText(
-                            text = theme.title,
-                            color = Grey60,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        NoPaddingText(
-                            text = theme.subTitle,
-                            color = Grey40,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                }
-            }
-        }
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .background(Color.Transparent)
-        ) {
-            items(100) {
-                RankItem()
-            }
-        }
-    }
-
-    if (showDialog) {
-        RequestArtistDialog(
-            onCancel = {
-                updateShowDialog()
-            },
-            onConfirm = {
-                updateShowDialog()
-                navigateToArtist()
-            }
-        )
     }
 }
 
 @Composable
 @Preview
 fun MainScreenPreview() {
-    MainScreen(false, {}, {}, {}, {})
+    MainScreen(uiState = MainScreenUiState.Success(true, Artist(0L, "sd", 0), listOf()), {}, {}, {}, {})
 }

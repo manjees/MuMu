@@ -27,13 +27,14 @@ import com.manjee.designsystem.ui.Grey90
 import com.manjee.designsystem.ui.Orange90
 import com.manjee.designsystem.ui.Pink90
 import com.manjee.designsystem.ui.Red90
+import com.manjee.model.Artist
 
 private val colorList = listOf(
     Red90, Blue90, Green90, Pink90, Orange90, Brown90
 )
 
 @Composable
-fun RankItem() {
+fun RankItem(myArtist: Artist?, artist: Artist) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -63,26 +64,30 @@ fun RankItem() {
             modifier = Modifier
                 .padding(horizontal = 6.dp)
                 .weight(1f),
-            text = "Rank Item",
+            text = artist.name,
             fontWeight = FontWeight.SemiBold,
             fontSize = 14.sp,
             color = Grey90
         )
-        Box(
-            modifier = Modifier
-                .background(
-                    color = Color.Black,
-                    shape = RoundedCornerShape(16.dp)
-                )
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
-                text = "Me",
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 14.sp,
-                color = Color.White
-            )
+        myArtist?.let {
+            if (myArtist.id == artist.id) {
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = Color.Black,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        text = "Me",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                        color = Color.White
+                    )
+                }
+            }
         }
         Spacer(modifier = Modifier
             .width(4.dp)
@@ -99,7 +104,7 @@ fun RankItem() {
             Text(
                 modifier = Modifier
                     .align(Alignment.Center),
-                text = "928",
+                text = artist.score.toString(),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 10.sp,
                 color = Color.White,
@@ -112,5 +117,12 @@ fun RankItem() {
 @Preview
 @Composable
 fun RankItemPreview() {
-    RankItem()
+    RankItem(
+        null,
+        Artist(
+            id = 0L,
+            name = "BTS",
+            score = 1230,
+        )
+    )
 }

@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:domain"))
     implementation(project(":core:datastore"))
+    implementation(project(":core:model"))
     implementation(project(":feature:lyric"))
     implementation(project(":feature:title"))
     implementation(project(":feature:myartist"))
