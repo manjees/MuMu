@@ -7,6 +7,7 @@ import com.manjee.core.datastore.model.MyArtistData
 import com.manjee.firebase.database.RankingDatabase
 import com.manjee.model.Artist
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -46,6 +47,7 @@ class MyArtistViewModel @Inject constructor(
     fun updateMyArtist(artist: Artist) {
         viewModelScope.launch {
             cachingDataSource.updateMyArtistData(MyArtistData(id = artist.id, name = artist.name))
+            _uiState.value = MyArtistScreenUiState.Complete
         }
     }
 }

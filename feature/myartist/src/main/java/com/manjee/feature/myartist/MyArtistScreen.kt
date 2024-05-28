@@ -68,6 +68,10 @@ fun MyArtistScreen(
             Text(text = "Error")
         }
 
+        is MyArtistScreenUiState.Complete -> {
+            onBackPressed()
+        }
+
         is MyArtistScreenUiState.Success -> {
             var isConfirmDialogVisible by remember { mutableStateOf(false) }
             var selectArtist by remember { mutableStateOf<Artist?>(null) }
@@ -148,7 +152,6 @@ fun MyArtistScreen(
                     onConfirm = {
                         isConfirmDialogVisible = false
                         updateMyArtist(it)
-                        onBackPressed()
                     },
                     onCancel = {
                         isConfirmDialogVisible = false

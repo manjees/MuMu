@@ -24,11 +24,11 @@ class MainViewModel @Inject constructor(
         MutableStateFlow(MainScreenUiState.Loading)
     val uiState: StateFlow<MainScreenUiState> = _uiState
 
-    init {
-        checkShowArtistRequestDialog()
-    }
+//    init {
+//        checkShowArtistRequestDialog()
+//    }
 
-    private fun checkShowArtistRequestDialog() = viewModelScope.launch {
+    fun checkShowArtistRequestDialog() = viewModelScope.launch {
         try {
             withContext(Dispatchers.IO) {
                 showArtistSelectDialogUseCase().collectLatest { result ->

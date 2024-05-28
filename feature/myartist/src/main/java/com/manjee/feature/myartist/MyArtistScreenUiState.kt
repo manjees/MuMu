@@ -10,4 +10,5 @@ interface MyArtistScreenUiState {
     data class Success(
         var data: List<Artist>,
     ): MyArtistScreenUiState
+    data object Complete: MyArtistScreenUiState
 }
