@@ -28,7 +28,9 @@ fun MumuNavHost(
             navigateToArtist = { navController.navigate(MY_ARTIST_ROUTE) }
         )
         lyricScreen()
-        titleScreen()
+        titleScreen(
+            onBackPressed = { navController.popBackStack() }
+        )
         myArtistScreen(
             onBackPressed = { navController.popBackStack() }
         )

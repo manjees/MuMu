@@ -150,7 +150,21 @@ class RankingDatabase @Inject constructor(
         }
     }
 
-    fun updateData() {
-        fireDb.child("1").setValue(RankingDataModel(1, "SUZY", 1).toMap())
+    fun updateData(id: Long, score: Long) {
+        fireDb.get().addOnSuccessListener {
+            val dataList = it.value as List<Map<String, Any>>?
+            val artistList = dataList?.map { dataMap ->
+                val id = dataMap["id"] as Long
+                val name = dataMap["name"] as String
+                val score = dataMap["score"] as Long
+
+                Artist(id, name, score)
+            } ?: emptyList()
+
+            val myArtist = artistList.find { artist ->  artist.id == id } ?: return@addOnSuccessListener
+            val rankingModel = RankingDataModel(myArtist.id, myArtist.name, myArtist.score + score)
+
+            fireDb.child(myArtist.id.toString()).setValue(rankingModel)
+        }
     }
 }

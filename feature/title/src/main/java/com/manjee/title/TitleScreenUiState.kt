@@ -9,8 +9,8 @@ interface TitleScreenUiState {
     data class Error(val message: String): TitleScreenUiState
     data class Success(
         var data: TitleQuiz,
-        var correctCount: Int = 0,
-        var incorrectCount: Int = 0,
+        var correctCount: Long = 0,
+        var incorrectCount: Long = 0,
         var currentQuizIndex: Int = 0,
         var isEnd: Boolean = false
     ): TitleScreenUiState

@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 fun QuizCountProgress(
     modifier: Modifier = Modifier,
     quizCount: Int,
-    count: Int,
+    count: Long,
     color: Color = Color.White,
     trackColor: Color = Color.Black,
     isReverse: Boolean = false,

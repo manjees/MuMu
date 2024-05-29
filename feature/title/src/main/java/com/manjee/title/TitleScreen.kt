@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.manjee.designsystem.component.OneButtonDialog
 import com.manjee.designsystem.ui.Green70
 import com.manjee.designsystem.ui.Grey90
 import com.manjee.designsystem.ui.ManduGreen50
@@ -83,14 +84,16 @@ private const val START_VIDEO_TIME = 60f
 
 @Composable
 fun TitleRoute(
-    viewModel: TitleViewModel = hiltViewModel()
+    viewModel: TitleViewModel = hiltViewModel(),
+    onBackPressed: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     TitleScreen(
         uiState = uiState,
         correctQuiz = viewModel::correctAnswer,
-        incorrectQuiz = viewModel::incorrectAnswer
+        incorrectQuiz = viewModel::incorrectAnswer,
+        onBackPressed = onBackPressed
     )
 }
 
@@ -99,7 +102,8 @@ fun TitleRoute(
 fun TitleScreen(
     uiState: TitleScreenUiState,
     correctQuiz: () -> Unit = {},
-    incorrectQuiz: () -> Unit = {}
+    incorrectQuiz: () -> Unit = {},
+    onBackPressed: () -> Unit = {}
 ) {
     val configuration = LocalConfiguration.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -287,7 +291,10 @@ fun TitleScreen(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .height(250.dp)
-                                            .background(Color.Transparent, RoundedCornerShape(20.dp)),
+                                            .background(
+                                                Color.Transparent,
+                                                RoundedCornerShape(20.dp)
+                                            ),
                                         factory = {
                                             YouTubePlayerView(it).apply {
                                                 enableAutomaticInitialization = false
@@ -453,6 +460,15 @@ fun TitleScreen(
                                 }
                             }
                         }
+                    } else {
+                        currentYouTubePlayer?.pause()
+
+                        OneButtonDialog(
+                            content = "Your effort has improved the score of your artist.\nThank you.",
+                            onPressed = {
+                                onBackPressed()
+                            }
+                        )
                     }
                 }
 

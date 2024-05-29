@@ -12,10 +12,14 @@ fun NavController.navigateToTitle(navOptions: NavOptions = NavOptions.Builder().
     navigate(TITLE_ROUTE)
 }
 
-fun NavGraphBuilder.titleScreen() {
+fun NavGraphBuilder.titleScreen(
+    onBackPressed: () -> Unit
+) {
     composable(
         route = TITLE_ROUTE
     ) {
-        TitleRoute()
+        TitleRoute(
+            onBackPressed = onBackPressed
+        )
     }
 }
