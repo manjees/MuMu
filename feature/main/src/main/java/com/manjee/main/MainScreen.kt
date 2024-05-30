@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.manjee.designsystem.component.LoadingLottie
 import com.manjee.designsystem.component.NoPaddingText
 import com.manjee.designsystem.ui.Blue20
 import com.manjee.designsystem.ui.Green20
@@ -90,10 +92,28 @@ internal fun MainScreen(
 
     val cardColorList = listOf(Red20, Green20, Blue20, Pink20)
 
-    when(uiState) {
+    when (uiState) {
         is MainScreenUiState.Loading -> {
-            // Loading
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(ManduGreen50)
+            ) {
+                // TODO: for preview
+//                Box(
+//                    modifier = Modifier
+//                        .size(200.dp)
+//                        .align(Alignment.Center)
+//                        .background(Color.Red)
+//                )
+                LoadingLottie(
+                    modifier = Modifier
+                        .size(200.dp)
+                        .align(Alignment.Center)
+                )
+            }
         }
+
         is MainScreenUiState.Error -> {
             Text(
                 text = "Error: ${uiState.message}",
@@ -102,6 +122,7 @@ internal fun MainScreen(
                 fontWeight = FontWeight.Bold
             )
         }
+
         is MainScreenUiState.Success -> {
             Column(
                 modifier = Modifier
@@ -233,5 +254,16 @@ internal fun MainScreen(
 @Composable
 @Preview
 fun MainScreenPreview() {
-    MainScreen(uiState = MainScreenUiState.Success(true, Artist(0L, "sd", 0), listOf()), {}, {}, {}, {})
+    MainScreen(
+        uiState = MainScreenUiState.Success(true, Artist(0L, "sd", 0), listOf()),
+        {},
+        {},
+        {},
+        {})
+}
+
+@Composable
+@Preview
+fun MainScreenLoadingPreview() {
+    MainScreen(uiState = MainScreenUiState.Loading, {}, {}, {}, {})
 }

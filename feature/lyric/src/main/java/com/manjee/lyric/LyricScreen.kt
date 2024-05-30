@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.manjee.designsystem.component.LoadingLottie
 import com.manjee.designsystem.component.OneButtonDialog
 import com.manjee.designsystem.ui.Green60
 import com.manjee.designsystem.ui.Grey90
@@ -95,7 +97,24 @@ internal fun LyricScreen(
 
     when (uiState) {
         is LyricScreenUiState.Loading -> {
-            // TODO
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(ManduGreen50)
+            ) {
+                // TODO: for preview
+//                Box(
+//                    modifier = Modifier
+//                        .size(200.dp)
+//                        .align(Alignment.Center)
+//                        .background(Color.Red)
+//                )
+                LoadingLottie(
+                    modifier = Modifier
+                        .size(200.dp)
+                        .align(Alignment.Center)
+                )
+            }
         }
 
         is LyricScreenUiState.Error -> {

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.manjee.designsystem.component.LoadingLottie
 import com.manjee.designsystem.ui.Grey90
 import com.manjee.designsystem.ui.ManduGreen50
 import com.manjee.feature.myartist.component.ArtistConfirmDialog
@@ -61,7 +63,24 @@ fun MyArtistScreen(
 ) {
     when (uiState) {
         is MyArtistScreenUiState.Loading -> {
-            // no-op
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(ManduGreen50)
+            ) {
+                // TODO: for preview
+//                Box(
+//                    modifier = Modifier
+//                        .size(200.dp)
+//                        .align(Alignment.Center)
+//                        .background(Color.Red)
+//                )
+                LoadingLottie(
+                    modifier = Modifier
+                        .size(200.dp)
+                        .align(Alignment.Center)
+                )
+            }
         }
 
         is MyArtistScreenUiState.Error -> {

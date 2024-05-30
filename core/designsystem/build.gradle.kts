@@ -43,4 +43,6 @@ dependencies {
     implementation(libs.androidx.core)
 
     implementation(libs.manjee.youtube.player)
+
+    implementation(libs.airbnb.lottie.compose)
 }

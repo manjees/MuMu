@@ -59,6 +59,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.manjee.designsystem.component.LoadingLottie
 import com.manjee.designsystem.component.OneButtonDialog
 import com.manjee.designsystem.ui.Green70
 import com.manjee.designsystem.ui.Grey90
@@ -126,7 +127,24 @@ fun TitleScreen(
 
     when (uiState) {
         is TitleScreenUiState.Loading -> {
-            // TODO
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(ManduGreen50)
+            ) {
+                // TODO: for preview
+//                Box(
+//                    modifier = Modifier
+//                        .size(200.dp)
+//                        .align(Alignment.Center)
+//                        .background(Color.Red)
+//                )
+                LoadingLottie(
+                    modifier = Modifier
+                        .size(200.dp)
+                        .align(Alignment.Center)
+                )
+            }
         }
 
         is TitleScreenUiState.Error -> {
