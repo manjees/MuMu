@@ -14,8 +14,8 @@ android {
         applicationId = "com.manjee.mumu"
         minSdk = 28
         targetSdk = 34
-        versionCode = Configuration.versionCode
-        versionName = Configuration.versionName
+        versionCode = Configuration.VERSION_CODE
+        versionName = Configuration.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
