@@ -48,6 +48,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:model"))
     implementation(project(":core:firebase"))
+    implementation(project(":core:datastore"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)

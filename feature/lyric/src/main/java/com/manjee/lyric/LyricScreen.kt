@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.manjee.designsystem.component.OneButtonDialog
 import com.manjee.designsystem.ui.Green60
 import com.manjee.designsystem.ui.Grey90
 import com.manjee.designsystem.ui.ManduGreen20
@@ -64,20 +65,23 @@ import com.manjee.nocaptionyoutubeplayer.views.YouTubePlayerView
 
 @Composable
 fun LyricRoute(
-    viewModel: LyricViewModel = hiltViewModel()
+    viewModel: LyricViewModel = hiltViewModel(),
+    onBackPressed: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LyricScreen(
         uiState = uiState,
-        checkAnswer = viewModel::checkAnswer
+        checkAnswer = viewModel::checkAnswer,
+        onBackPressed = onBackPressed
     )
 }
 
 @Composable
 internal fun LyricScreen(
     uiState: LyricScreenUiState,
-    checkAnswer: (List<Lyric>, String) -> Unit = { _, _ -> }
+    checkAnswer: (List<Lyric>, String) -> Unit = { _, _ -> },
+    onBackPressed: () -> Unit = {}
 ) {
     val coroutineScope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -224,7 +228,7 @@ internal fun LyricScreen(
                     }
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "Quiz 1/4",
+                        text = "${(uiState.correctCount * 10)}",
                         color = Grey90,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
@@ -285,8 +289,10 @@ internal fun LyricScreen(
                             .padding(15.dp),
                         horizontalArrangement = Arrangement.spacedBy(1.dp)
                     ) {
-                        repeat(data[uiState.currentQuizIndex].answerList.size) { index ->
-                            val item = data[uiState.currentQuizIndex].answerList[index]
+                        val shuffleData = data[uiState.currentQuizIndex].answerList.shuffled()
+
+                        repeat(shuffleData.size) { index ->
+                            val item = shuffleData[index]
 
                             if (item.isVisible) {
                                 LyricItem(
@@ -345,6 +351,24 @@ internal fun LyricScreen(
                 )
             }
         }
+
+        is LyricScreenUiState.End -> {
+            var isDialogVisible by remember { mutableStateOf(true) }
+            currentYouTubePlayer?.pause()
+
+            if (isDialogVisible) {
+                val artist = uiState.myArtist?.let {
+                    uiState.myArtist.name
+                } ?: run { "Artist" }
+                OneButtonDialog(
+                    content = "Your effort has contributed ${uiState.score} points to the score of your $artist.\nThank you.",
+                    onPressed = {
+                        isDialogVisible = false
+                        onBackPressed()
+                    }
+                )
+            }
+        }
     }
 }
 
@@ -367,8 +391,10 @@ internal fun LyricScreenPreview() {
                     stringTime = 0f,
                     endTime = 0f,
                     videoId = "123"
-                )
-            )
+                ),
+            ),
+            quizCount = 4,
+            currentQuizIndex = 0
         )
     )
 }

@@ -12,10 +12,14 @@ fun NavController.navigateToLyric(navOptions: NavOptions = NavOptions.Builder().
     navigate(LYRIC_ROUTE)
 }
 
-fun NavGraphBuilder.lyricScreen() {
+fun NavGraphBuilder.lyricScreen(
+    onBackPressed: () -> Unit
+) {
     composable(
         route = LYRIC_ROUTE
     ) {
-        LyricRoute()
+        LyricRoute(
+            onBackPressed = onBackPressed
+        )
     }
 }
