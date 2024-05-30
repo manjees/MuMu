@@ -411,23 +411,6 @@ fun TitleScreen(
                                         .align(Alignment.TopCenter)
                                         .background(boxColor, RoundedCornerShape(20.dp))
                                 )
-//                                if (remainTime >= 29) {
-//                                    Box(
-//                                        modifier = Modifier
-//                                            .fillMaxWidth()
-//                                            .height(250.dp)
-//                                            .align(Alignment.TopCenter)
-//                                            .background(boxColor, RoundedCornerShape(20.dp))
-//                                    )
-//                                } else {
-//                                    Box(
-//                                        modifier = Modifier
-//                                            .fillMaxWidth()
-//                                            .height(if (isShowVideoChecked) boxHeight else 250.dp)
-//                                            .align(Alignment.TopCenter)
-//                                            .background(boxColor, RoundedCornerShape(20.dp))
-//                                    )
-//                                }
                             }
                         }
                     }
@@ -509,7 +492,7 @@ fun TitleScreen(
                     modifier = Modifier
                         .align(Alignment.TopStart),
                     onClick = {
-
+                        onBackPressed()
                     }
                 ) {
                     Icon(
@@ -551,14 +534,18 @@ fun TitleScreen(
         }
 
         is TitleScreenUiState.End -> {
+            var isDialogVisible by remember { mutableStateOf(true) }
             currentYouTubePlayer?.pause()
 
-            OneButtonDialog(
-                content = "Your effort has improved the score of your artist.\nThank you.",
-                onPressed = {
-                    onBackPressed()
-                }
-            )
+            if (isDialogVisible) {
+                OneButtonDialog(
+                    content = "Your effort has improved the score of your artist.\nThank you.",
+                    onPressed = {
+                        isDialogVisible = false
+                        onBackPressed()
+                    }
+                )
+            }
         }
     }
 }
