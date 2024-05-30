@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.manjee.core.datastore.DataStoreConst.CACHING_DATASTORE
+import com.manjee.core.datastore.mapper.toArtist
 import com.manjee.core.datastore.model.MyArtistData
 import com.manjee.core.datastore.model.toJsonString
 import com.manjee.core.datastore.model.toMyArtist
@@ -22,7 +23,7 @@ class CachingPreferenceDataSource @Inject constructor(
     }
 
     val myArtistData = cachingDataStore.data.map { preferences ->
-        preferences[PreferenceKeys.MY_ARTIST]?.toMyArtist()
+        preferences[PreferenceKeys.MY_ARTIST]?.toMyArtist()?.toArtist()
     }
 
     suspend fun updateMyArtistData(myArtistData: MyArtistData) {

@@ -537,9 +537,13 @@ fun TitleScreen(
             var isDialogVisible by remember { mutableStateOf(true) }
             currentYouTubePlayer?.pause()
 
+            val artist = uiState.myArtist?.let {
+                uiState.myArtist.name
+            } ?: run { "Artist" }
+
             if (isDialogVisible) {
                 OneButtonDialog(
-                    content = "Your effort has improved the score of your artist.\nThank you.",
+                    content = "Your effort has improved the score of your $artist.\nThank you.",
                     onPressed = {
                         isDialogVisible = false
                         onBackPressed()

@@ -1,7 +1,6 @@
 package com.manjee.core.domain.usecase
 
 import com.manjee.core.datastore.datasource.CachingPreferenceDataSource
-import com.manjee.core.datastore.mapper.toArtist
 import com.manjee.firebase.database.RankingDatabase
 import com.manjee.model.Artist
 import kotlinx.coroutines.async
@@ -24,7 +23,7 @@ class ShowArtistSelectDialogUseCase @Inject constructor(
 
         supervisorScope {
             val myArtistDataDeferred = async {
-                myArtistData = cachingDataSource.myArtistData.first()?.toArtist()
+                myArtistData = cachingDataSource.myArtistData.first()
             }
 
             val isRequestVisibleDeferred = async {

@@ -3,9 +3,9 @@ package com.manjee.title
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manjee.core.datastore.datasource.CachingPreferenceDataSource
-import com.manjee.core.datastore.model.MyArtistData
 import com.manjee.firebase.database.RankingDatabase
 import com.manjee.firebase.database.TitleDatabase
+import com.manjee.model.Artist
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +24,7 @@ class TitleViewModel @Inject constructor(
         MutableStateFlow(TitleScreenUiState.Loading)
     val uiState: StateFlow<TitleScreenUiState> = _uiState
 
-    private var myArtistData: MyArtistData? = null
+    private var myArtistData: Artist? = null
 
     init {
         getTitleData()
