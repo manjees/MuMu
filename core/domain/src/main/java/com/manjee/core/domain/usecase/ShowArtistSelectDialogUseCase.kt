@@ -32,9 +32,7 @@ class ShowArtistSelectDialogUseCase @Inject constructor(
             }
 
             val rankingListDeferred = async {
-                rankingDatabase.getArtistData().sortedBy {
-                    it.score
-                }
+                rankingDatabase.getArtistData()
             }
 
             awaitAll(myArtistDataDeferred, isRequestVisibleDeferred, rankingListDeferred)

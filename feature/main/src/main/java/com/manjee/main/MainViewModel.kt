@@ -1,6 +1,5 @@
 package com.manjee.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manjee.core.datastore.datasource.CachingPreferenceDataSource
@@ -23,10 +22,6 @@ class MainViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<MainScreenUiState> =
         MutableStateFlow(MainScreenUiState.Loading)
     val uiState: StateFlow<MainScreenUiState> = _uiState
-
-//    init {
-//        checkShowArtistRequestDialog()
-//    }
 
     fun checkShowArtistRequestDialog() = viewModelScope.launch {
         try {

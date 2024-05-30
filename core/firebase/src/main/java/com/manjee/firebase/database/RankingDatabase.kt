@@ -141,7 +141,7 @@ class RankingDatabase @Inject constructor(
                 val score = dataMap["score"] as Long
 
                 Artist(id, name, score)
-            } ?: emptyList()
+            }?.sortedByDescending { artist -> artist.score } ?: emptyList()
 
             cont.resume(artistList)
         }.addOnFailureListener {
