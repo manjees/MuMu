@@ -2,7 +2,6 @@ package com.manjee.title
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.manjee.core.datastore.datasource.CachingPreferenceDataSource
 import com.manjee.core.datastore.model.MyArtistData
 import com.manjee.firebase.database.RankingDatabase
@@ -10,7 +9,6 @@ import com.manjee.firebase.database.TitleDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -44,7 +42,7 @@ class TitleViewModel @Inject constructor(
     }
 
     private fun getMyArtist() = viewModelScope.launch {
-        cachingPreferenceDataSource.myArtistData.firstOrNull()
+        myArtistData = cachingPreferenceDataSource.myArtistData.firstOrNull()
     }
 
     fun correctAnswer() {
@@ -54,12 +52,12 @@ class TitleViewModel @Inject constructor(
 
         if (isEnd) {
             updateRankingData()
+            return
         }
 
         _uiState.value = currentState.copy(
             correctCount = currentState.correctCount + 1,
             currentQuizIndex = currentState.currentQuizIndex + 1,
-            isEnd = isEnd
         )
     }
 
@@ -70,18 +68,23 @@ class TitleViewModel @Inject constructor(
 
         if (isEnd) {
             updateRankingData()
+            return
         }
 
         _uiState.value = currentState.copy(
             incorrectCount = currentState.incorrectCount + 1,
             currentQuizIndex = currentState.currentQuizIndex + 1,
-            isEnd = isEnd
         )
     }
 
     private fun updateRankingData() = viewModelScope.launch {
         myArtistData?.let {
-            rankingDatabase.updateData(it.id, (uiState.value as TitleScreenUiState.Success).correctCount)
+            rankingDatabase.updateData(
+                it.id,
+                (uiState.value as TitleScreenUiState.Success).correctCount
+            ) {
+                _uiState.value = TitleScreenUiState.End(myArtistData)
+            }
         }
     }
 }

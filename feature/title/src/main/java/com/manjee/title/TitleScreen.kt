@@ -419,56 +419,45 @@ fun TitleScreen(
                         }
                     }
 
-                    if (!uiState.isEnd) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            verticalArrangement = Arrangement.spacedBy(
-                                16.dp,
-                                Alignment.CenterVertically
-                            ),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            repeat(choiceList.size) {
-                                Button(
-                                    modifier = Modifier
-                                        .width((configuration.screenWidthDp * 0.8).dp)
-                                        .height(60.dp),
-                                    shape = RoundedCornerShape(14.dp),
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = Color.White,
-                                        contentColor = Color.Black,
-                                    ),
-                                    border = BorderStroke(2.dp, Yellow70),
-                                    onClick = {
-                                        remainTime = 30
-                                        
-                                        if (choiceList[it] == currentQuiz.title) {
-                                            Log.i("@@@@", "정답")
-                                            correctQuiz()
-                                        } else {
-                                            Log.i("@@@@", "오답")
-                                            incorrectQuiz()
-                                        }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(
+                            16.dp,
+                            Alignment.CenterVertically
+                        ),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        repeat(choiceList.size) {
+                            Button(
+                                modifier = Modifier
+                                    .width((configuration.screenWidthDp * 0.8).dp)
+                                    .height(60.dp),
+                                shape = RoundedCornerShape(14.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.White,
+                                    contentColor = Color.Black,
+                                ),
+                                border = BorderStroke(2.dp, Yellow70),
+                                onClick = {
+                                    remainTime = 30
+
+                                    if (choiceList[it] == currentQuiz.title) {
+                                        Log.i("@@@@", "정답")
+                                        correctQuiz()
+                                    } else {
+                                        Log.i("@@@@", "오답")
+                                        incorrectQuiz()
                                     }
-                                ) {
-                                    Text(
-                                        text = choiceList[it],
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
                                 }
+                            ) {
+                                Text(
+                                    text = choiceList[it],
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
                             }
                         }
-                    } else {
-                        currentYouTubePlayer?.pause()
-
-                        OneButtonDialog(
-                            content = "Your effort has improved the score of your artist.\nThank you.",
-                            onPressed = {
-                                onBackPressed()
-                            }
-                        )
                     }
                 }
 
@@ -546,6 +535,17 @@ fun TitleScreen(
                     )
                 }
             }
+        }
+
+        is TitleScreenUiState.End -> {
+            currentYouTubePlayer?.pause()
+
+            OneButtonDialog(
+                content = "Your effort has improved the score of your artist.\nThank you.",
+                onPressed = {
+                    onBackPressed()
+                }
+            )
         }
     }
 }

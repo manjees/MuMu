@@ -1,6 +1,7 @@
 package com.manjee.title
 
 import androidx.compose.runtime.Stable
+import com.manjee.core.datastore.model.MyArtistData
 import com.manjee.model.TitleQuiz
 
 @Stable
@@ -12,6 +13,8 @@ interface TitleScreenUiState {
         var correctCount: Long = 0,
         var incorrectCount: Long = 0,
         var currentQuizIndex: Int = 0,
-        var isEnd: Boolean = false
+    ): TitleScreenUiState
+    data class End(
+        val myArtist: MyArtistData?
     ): TitleScreenUiState
 }

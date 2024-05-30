@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -73,9 +74,12 @@ fun OneButtonDialogContent(
                 // no-op
             }
             Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
                 text = content,
                 fontSize = 14.sp,
-                color = Grey90
+                color = Grey90,
+                textAlign = TextAlign.Center
             )
             Spacer(
                 modifier = Modifier
@@ -105,7 +109,7 @@ fun OneButtonDialogContent(
 @Composable
 fun OneButtonDialogPreview() {
     OneButtonDialogContent(
-        content = "This is a dialog",
+        content = "Your effort has improved the score of your artist.\nThank you.",
         onPressed = {}
     )
 }

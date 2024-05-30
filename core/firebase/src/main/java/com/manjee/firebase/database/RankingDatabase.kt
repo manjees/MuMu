@@ -1,6 +1,5 @@
 package com.manjee.firebase.database
 
-import android.util.Log
 import com.google.firebase.database.DatabaseReference
 import com.manjee.firebase.FirebaseConst.RANKING_DATABASE
 import com.manjee.firebase.model.RankingDataModel
@@ -150,7 +149,7 @@ class RankingDatabase @Inject constructor(
         }
     }
 
-    fun updateData(id: Long, score: Long) {
+    fun updateData(id: Long, score: Long, isSuccess: (Boolean) -> Unit) {
         fireDb.get().addOnSuccessListener {
             val dataList = it.value as List<Map<String, Any>>?
             val artistList = dataList?.map { dataMap ->
@@ -164,7 +163,13 @@ class RankingDatabase @Inject constructor(
             val myArtist = artistList.find { artist ->  artist.id == id } ?: return@addOnSuccessListener
             val rankingModel = RankingDataModel(myArtist.id, myArtist.name, myArtist.score + score)
 
-            fireDb.child(myArtist.id.toString()).setValue(rankingModel)
+            fireDb.child(myArtist.id.toString()).setValue(rankingModel).addOnSuccessListener {
+                isSuccess(true)
+            }.addOnFailureListener {
+                isSuccess(false)
+            }
+        }.addOnFailureListener {
+            // TODO: Handle error
         }
     }
 }
