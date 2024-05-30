@@ -39,6 +39,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -77,6 +78,7 @@ import com.manjee.nocaptionyoutubeplayer.utils.loadOrCueVideo
 import com.manjee.nocaptionyoutubeplayer.views.YouTubePlayerView
 import com.manjee.title.component.QuizCountProgress
 import com.manjee.title.util.CustomPlayerUiController
+import kotlinx.coroutines.delay
 
 private const val SETTING_TIMER = 30
 private const val INIT_TIMER = 90
@@ -144,22 +146,26 @@ fun TitleScreen(
                 )
             }
 
-            val boxHeight by animateDpAsState(
-                targetValue = if (remainTime > 27) 250.dp else 0.dp, label = "",
-            )
+            val boxHeight = if (remainTime >= 30) {
+                250.dp
+            } else {
+                animateDpAsState(
+                    targetValue = if (remainTime > 27) 250.dp else 0.dp, label = ""
+                ).value
+            }
 
             var isShowVideoChecked by remember { mutableStateOf(true) }
 
             LaunchedEffect(uiState.currentQuizIndex) {
                 remainTime = 30
 
+                val filteredChoices = uiState.data.choiceList.filter { it != currentQuiz.title }
+                choiceList = (filteredChoices.shuffled().take(3) + currentQuiz.title).shuffled()
+
                 currentYouTubePlayer?.let {
                     it.pause()
                     it.loadOrCueVideo(lifecycle, currentQuiz.videoId, START_VIDEO_TIME)
                 }
-
-                val filteredChoices = uiState.data.choiceList.filter { it != currentQuiz.title }
-                choiceList = (filteredChoices.shuffled().take(3) + currentQuiz.title).shuffled()
             }
 
             Box(
@@ -398,23 +404,30 @@ fun TitleScreen(
                                         }
                                     )
                                 }
-                                if (remainTime == 30) {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(250.dp)
-                                            .align(Alignment.TopCenter)
-                                            .background(boxColor, RoundedCornerShape(20.dp))
-                                    )
-                                } else {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(if (isShowVideoChecked) boxHeight else 250.dp)
-                                            .align(Alignment.TopCenter)
-                                            .background(boxColor, RoundedCornerShape(20.dp))
-                                    )
-                                }
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(if (isShowVideoChecked) boxHeight else 250.dp)
+                                        .align(Alignment.TopCenter)
+                                        .background(boxColor, RoundedCornerShape(20.dp))
+                                )
+//                                if (remainTime >= 29) {
+//                                    Box(
+//                                        modifier = Modifier
+//                                            .fillMaxWidth()
+//                                            .height(250.dp)
+//                                            .align(Alignment.TopCenter)
+//                                            .background(boxColor, RoundedCornerShape(20.dp))
+//                                    )
+//                                } else {
+//                                    Box(
+//                                        modifier = Modifier
+//                                            .fillMaxWidth()
+//                                            .height(if (isShowVideoChecked) boxHeight else 250.dp)
+//                                            .align(Alignment.TopCenter)
+//                                            .background(boxColor, RoundedCornerShape(20.dp))
+//                                    )
+//                                }
                             }
                         }
                     }
