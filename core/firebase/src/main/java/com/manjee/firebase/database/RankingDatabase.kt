@@ -122,7 +122,8 @@ class RankingDatabase @Inject constructor(
             RankingDataModel(103, "ITZY", 0),
             RankingDataModel(104, "G-Idle", 0),
             RankingDataModel(105, "KISS OF LIFE", 0),
-            RankingDataModel(106, "NMIXX", 0)
+            RankingDataModel(106, "NMIXX", 0),
+            RankingDataModel(107, "QWER", 0)
         )
 
         val dataMap = dataList.map { rankingDataModel ->
