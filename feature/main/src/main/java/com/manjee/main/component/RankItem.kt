@@ -39,6 +39,7 @@ fun RankItem(myArtist: Artist?, artist: Artist) {
         Modifier
             .fillMaxWidth()
             .height(45.dp)
+            .background(Color.White)
             .padding(horizontal = 16.dp, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -118,7 +119,11 @@ fun RankItem(myArtist: Artist?, artist: Artist) {
 @Composable
 fun RankItemPreview() {
     RankItem(
-        null,
+        Artist(
+            id = 0L,
+            name = "BTS",
+            score = 1230,
+        ),
         Artist(
             id = 0L,
             name = "BTS",
