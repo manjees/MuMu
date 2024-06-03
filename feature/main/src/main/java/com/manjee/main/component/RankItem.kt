@@ -39,7 +39,6 @@ fun RankItem(myArtist: Artist?, artist: Artist) {
         Modifier
             .fillMaxWidth()
             .height(45.dp)
-            .background(Color.White)
             .padding(horizontal = 16.dp, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
