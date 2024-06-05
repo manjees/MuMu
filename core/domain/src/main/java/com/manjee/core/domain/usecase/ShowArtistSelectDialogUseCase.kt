@@ -2,7 +2,10 @@ package com.manjee.core.domain.usecase
 
 import com.manjee.core.datastore.datasource.CachingPreferenceDataSource
 import com.manjee.firebase.database.RankingDatabase
+import com.manjee.firebase.database.ThemeDatabase
 import com.manjee.model.Artist
+import com.manjee.model.MainScreenData
+import com.manjee.model.Theme
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
@@ -13,13 +16,15 @@ import javax.inject.Inject
 
 class ShowArtistSelectDialogUseCase @Inject constructor(
     private val cachingDataSource: CachingPreferenceDataSource,
-    private val rankingDatabase: RankingDatabase
+    private val rankingDatabase: RankingDatabase,
+    private val themeDatabase: ThemeDatabase
 ) {
 
-    suspend operator fun invoke(): Flow<Triple<Boolean, Artist?, List<Artist>>> {
+    suspend operator fun invoke(): Flow<MainScreenData> {
         var myArtistData: Artist? = null
         var isRequestVisible = false
         val rankingList: List<Artist>
+        val themeList: List<Theme>
 
         supervisorScope {
             val myArtistDataDeferred = async {
@@ -34,9 +39,14 @@ class ShowArtistSelectDialogUseCase @Inject constructor(
                 rankingDatabase.getArtistData()
             }
 
-            awaitAll(myArtistDataDeferred, isRequestVisibleDeferred, rankingListDeferred)
+            val themeListDeferred = async {
+                themeDatabase.getTheme()
+            }
+
+            awaitAll(myArtistDataDeferred, isRequestVisibleDeferred, rankingListDeferred, themeListDeferred)
 
             rankingList = rankingListDeferred.await()
+            themeList = themeListDeferred.await()
         }
 
         val result = myArtistData?.let {
@@ -45,6 +55,13 @@ class ShowArtistSelectDialogUseCase @Inject constructor(
             isRequestVisible
         }
 
-        return flowOf(Triple(result, myArtistData, rankingList))
+        return flowOf(
+            MainScreenData(
+                isRequestVisible = result,
+                myArtist = myArtistData,
+                rankingList = rankingList,
+                themeList = themeList
+            )
+        )
     }
 }

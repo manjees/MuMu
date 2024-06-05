@@ -5,6 +5,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.manjee.firebase.FirebaseConst.LYRIC_DATABASE
 import com.manjee.firebase.FirebaseConst.RANKING_DATABASE
+import com.manjee.firebase.FirebaseConst.THEME_DATABASE
 import com.manjee.firebase.FirebaseConst.TITLE_DATABASE
 import dagger.Module
 import dagger.Provides
@@ -21,20 +22,31 @@ internal object FirebaseModule {
     @Named(LYRIC_DATABASE)
     @Provides
     fun provideLyricDatabase() : DatabaseReference {
-        return Firebase.database.reference.child("lyric").child("data")
+        return getDatabaseReference("lyric")
     }
 
     @Singleton
     @Named(TITLE_DATABASE)
     @Provides
     fun provideTitleDatabase() : DatabaseReference {
-        return Firebase.database.reference.child("title").child("data")
+        return getDatabaseReference("title")
     }
 
     @Singleton
     @Named(RANKING_DATABASE)
     @Provides
     fun provideRankingDatabase() : DatabaseReference {
-        return Firebase.database.reference.child("ranking").child("data")
+        return getDatabaseReference("ranking")
+    }
+
+    @Singleton
+    @Named(THEME_DATABASE)
+    @Provides
+    fun provideThemeDatabase() : DatabaseReference {
+        return getDatabaseReference("theme")
+    }
+
+    private fun getDatabaseReference(child: String): DatabaseReference {
+        return Firebase.database.reference.child(child).child("data")
     }
 }

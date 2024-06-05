@@ -55,6 +55,8 @@ import com.manjee.feature.splash.R
 import com.manjee.main.component.RankItem
 import com.manjee.main.component.RequestArtistDialog
 import com.manjee.model.Artist
+import com.manjee.model.MainScreenData
+import com.manjee.model.Theme
 import kotlin.math.absoluteValue
 
 @Composable
@@ -88,7 +90,6 @@ internal fun MainScreen(
     navigateToArtist: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
-    val pagerState = rememberPagerState(0, pageCount = { QuizTheme.entries.size })
 
     val cardColorList = listOf(Red20, Green20, Blue20, Pink20)
 
@@ -124,6 +125,9 @@ internal fun MainScreen(
         }
 
         is MainScreenUiState.Success -> {
+            val mainScreenData = uiState.mainScreenData
+            val pagerState = rememberPagerState(0, pageCount = { mainScreenData.themeList.size })
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -171,7 +175,7 @@ internal fun MainScreen(
                         end = (configuration.screenWidthDp.dp / 4) - 8.dp // 끝 패딩 설정
                     ),
                 ) {
-                    val theme: QuizTheme = QuizTheme.entries[it]
+                    val theme: Theme = mainScreenData.themeList[it]
                     val shadow = if (it == pagerState.currentPage) 15.dp else 0.dp
 
                     Card(
@@ -210,13 +214,13 @@ internal fun MainScreen(
                                 verticalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
                                 NoPaddingText(
-                                    text = theme.title,
+                                    text = theme.themeName,
                                     color = Grey60,
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold
                                 )
                                 NoPaddingText(
-                                    text = theme.subTitle,
+                                    text = theme.description,
                                     color = Grey40,
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.SemiBold
@@ -230,13 +234,13 @@ internal fun MainScreen(
                         .weight(1f)
                         .background(Color.Transparent)
                 ) {
-                    items(uiState.rankingList.size) {
-                        RankItem(uiState.myArtist, uiState.rankingList[it])
+                    items(mainScreenData.rankingList.size) {
+                        RankItem(mainScreenData.myArtist, mainScreenData.rankingList[it])
                     }
                 }
             }
 
-            if (uiState.isShowArtistDialog) {
+            if (mainScreenData.isRequestVisible) {
                 RequestArtistDialog(
                     onCancel = {
                         updateShowDialog()
@@ -255,7 +259,11 @@ internal fun MainScreen(
 @Preview
 fun MainScreenPreview() {
     MainScreen(
-        uiState = MainScreenUiState.Success(true, Artist(0L, "sd", 0), listOf()),
+        uiState = MainScreenUiState.Success(
+            MainScreenData(
+                true, Artist(0L, "sd", 0), listOf(), listOf()
+            )
+        ),
         {},
         {},
         {},

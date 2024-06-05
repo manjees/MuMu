@@ -28,11 +28,8 @@ class MainViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 showArtistSelectDialogUseCase().collectLatest { result ->
                     withContext(Dispatchers.Main) {
-                        _uiState.value = MainScreenUiState.Success(
-                            isShowArtistDialog = result.first,
-                            myArtist = result.second,
-                            rankingList = result.third
-                        )
+
+                        _uiState.value = MainScreenUiState.Success(result)
                     }
                 }
             }
@@ -48,7 +45,9 @@ class MainViewModel @Inject constructor(
             cachingDataSource.updateIsRequestVisible(false)
 
             _uiState.value = (currentState as MainScreenUiState.Success).copy(
-                isShowArtistDialog = false
+                mainScreenData = (currentState.mainScreenData).copy(
+                    isRequestVisible = false
+                )
             )
         }
     }
