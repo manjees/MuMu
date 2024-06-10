@@ -93,7 +93,7 @@ internal fun MainScreen(
 ) {
     val configuration = LocalConfiguration.current
 
-    val cardColorList = listOf(Red20, Green20, Blue20, Pink20, ManduGreen20,Red20, Green20, Blue20, Pink20, ManduGreen20)
+    val cardColorList = listOf(Red20, Green20, Blue20, Pink20, ManduGreen20)
 
     when (uiState) {
         is MainScreenUiState.Loading -> {
@@ -206,7 +206,7 @@ internal fun MainScreen(
                     ) {
                         Box(
                             modifier = Modifier
-                                .background(cardColorList[it])
+                                .background(cardColorList[Random.nextInt(cardColorList.size)])
                                 .fillMaxSize()
                                 .padding(16.dp)
                         ) {
