@@ -88,9 +88,14 @@ private const val START_VIDEO_TIME = 60f
 @Composable
 fun TitleRoute(
     viewModel: TitleViewModel = hiltViewModel(),
+    quizId: String,
     onBackPressed: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(null) {
+        viewModel.getQuizData(quizId)
+    }
 
     TitleScreen(
         uiState = uiState,

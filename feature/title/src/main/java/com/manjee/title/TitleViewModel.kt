@@ -1,5 +1,6 @@
 package com.manjee.title
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manjee.core.datastore.datasource.CachingPreferenceDataSource
@@ -29,6 +30,10 @@ class TitleViewModel @Inject constructor(
     init {
         getTitleData()
         getMyArtist()
+    }
+
+    fun getQuizData(quizId: String) {
+        Log.i("@@@@", "getQuizData: $quizId")
     }
 
     private fun getTitleData() = viewModelScope.launch {
