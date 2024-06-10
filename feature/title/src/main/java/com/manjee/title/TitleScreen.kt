@@ -88,7 +88,7 @@ private const val START_VIDEO_TIME = 60f
 @Composable
 fun TitleRoute(
     viewModel: TitleViewModel = hiltViewModel(),
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -106,7 +106,7 @@ fun TitleScreen(
     uiState: TitleScreenUiState,
     correctQuiz: () -> Unit = {},
     incorrectQuiz: () -> Unit = {},
-    onBackPressed: () -> Unit = {}
+    onBackPressed: () -> Unit = {},
 ) {
     val configuration = LocalConfiguration.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -331,7 +331,7 @@ fun TitleScreen(
                                                     object : AbstractYouTubePlayerListener() {
                                                         override fun onCurrentSecond(
                                                             youTubePlayer: YouTubePlayer,
-                                                            second: Float
+                                                            second: Float,
                                                         ) {
                                                             super.onCurrentSecond(
                                                                 youTubePlayer,
@@ -378,7 +378,7 @@ fun TitleScreen(
 
                                                         override fun onStateChange(
                                                             youTubePlayer: YouTubePlayer,
-                                                            state: PlayerConstants.PlayerState
+                                                            state: PlayerConstants.PlayerState,
                                                         ) {
                                                             super.onStateChange(
                                                                 youTubePlayer,
@@ -388,7 +388,7 @@ fun TitleScreen(
 
                                                         override fun onVideoDuration(
                                                             youTubePlayer: YouTubePlayer,
-                                                            duration: Float
+                                                            duration: Float,
                                                         ) {
                                                             super.onVideoDuration(
                                                                 youTubePlayer,
@@ -398,14 +398,14 @@ fun TitleScreen(
 
                                                         override fun onVideoId(
                                                             youTubePlayer: YouTubePlayer,
-                                                            videoId: String
+                                                            videoId: String,
                                                         ) {
                                                             super.onVideoId(youTubePlayer, videoId)
                                                         }
 
                                                         override fun onVideoLoadedFraction(
                                                             youTubePlayer: YouTubePlayer,
-                                                            loadedFraction: Float
+                                                            loadedFraction: Float,
                                                         ) {
                                                             super.onVideoLoadedFraction(
                                                                 youTubePlayer,

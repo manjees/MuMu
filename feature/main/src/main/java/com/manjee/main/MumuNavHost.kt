@@ -11,6 +11,7 @@ import com.manjee.lyric.navigation.lyricScreen
 import com.manjee.main.navigation.MAIN_ROUTE
 import com.manjee.main.navigation.mainScreen
 import com.manjee.title.navigation.TITLE_ROUTE
+import com.manjee.title.navigation.navigateToTitle
 import com.manjee.title.navigation.titleScreen
 
 @Composable
@@ -24,7 +25,7 @@ fun MumuNavHost(
     ) {
         mainScreen(
             navigateToLyric = { navController.navigate(LYRIC_ROUTE) },
-            navigateToTitle = { navController.navigate(TITLE_ROUTE) },
+            navigateToTitle = { navController.navigateToTitle(it) },
             navigateToArtist = { navController.navigate(MY_ARTIST_ROUTE) }
         )
         lyricScreen(

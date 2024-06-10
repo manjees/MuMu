@@ -65,7 +65,7 @@ import kotlin.random.Random
 fun MainRoute(
     viewModel: MainViewModel = hiltViewModel(),
     navigateToLyric: () -> Unit,
-    navigateToTitle: () -> Unit,
+    navigateToTitle: (quizId: String) -> Unit,
     navigateToArtist: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -88,12 +88,12 @@ internal fun MainScreen(
     uiState: MainScreenUiState,
     updateShowDialog: () -> Unit,
     navigateToLyric: () -> Unit,
-    navigateToTitle: () -> Unit,
+    navigateToTitle: (quizId: String) -> Unit,
     navigateToArtist: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
 
-    val cardColorList = listOf(Red20, Green20, Blue20, Pink20, ManduGreen20)
+    val cardColorList = listOf(Red20, Green20, Blue20, Pink20, ManduGreen20,Red20, Green20, Blue20, Pink20, ManduGreen20)
 
     when (uiState) {
         is MainScreenUiState.Loading -> {
@@ -199,7 +199,7 @@ internal fun MainScreen(
                             }
                             .clickable {
                                 when (it) {
-                                    0 -> navigateToTitle()
+                                    0, 3 -> navigateToTitle(theme.id)
                                     1 -> navigateToLyric()
                                 }
                             }
