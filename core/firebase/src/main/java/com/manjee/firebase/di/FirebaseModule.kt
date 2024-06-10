@@ -3,6 +3,7 @@ package com.manjee.firebase.di
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.manjee.firebase.FirebaseConst.BILLBOARD_DATABASE
 import com.manjee.firebase.FirebaseConst.LYRIC_DATABASE
 import com.manjee.firebase.FirebaseConst.RANKING_DATABASE
 import com.manjee.firebase.FirebaseConst.THEME_DATABASE
@@ -44,6 +45,13 @@ internal object FirebaseModule {
     @Provides
     fun provideThemeDatabase() : DatabaseReference {
         return getDatabaseReference("theme")
+    }
+
+    @Singleton
+    @Named(BILLBOARD_DATABASE)
+    @Provides
+    fun provideBillboardDatabase() : DatabaseReference {
+        return getDatabaseReference("billboard")
     }
 
     private fun getDatabaseReference(child: String): DatabaseReference {

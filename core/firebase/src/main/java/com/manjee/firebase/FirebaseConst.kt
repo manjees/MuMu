@@ -5,4 +5,5 @@ object FirebaseConst {
     const val TITLE_DATABASE = "titleDatabase"
     const val RANKING_DATABASE = "rankingDatabase"
     const val THEME_DATABASE = "themeDatabase"
+    const val BILLBOARD_DATABASE = "billboardDatabase"
 }
