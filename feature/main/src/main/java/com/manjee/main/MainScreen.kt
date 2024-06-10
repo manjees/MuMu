@@ -48,6 +48,7 @@ import com.manjee.designsystem.ui.Green20
 import com.manjee.designsystem.ui.Grey40
 import com.manjee.designsystem.ui.Grey60
 import com.manjee.designsystem.ui.Grey90
+import com.manjee.designsystem.ui.ManduGreen20
 import com.manjee.designsystem.ui.ManduGreen50
 import com.manjee.designsystem.ui.Pink20
 import com.manjee.designsystem.ui.Red20
@@ -58,6 +59,7 @@ import com.manjee.model.Artist
 import com.manjee.model.MainScreenData
 import com.manjee.model.Theme
 import kotlin.math.absoluteValue
+import kotlin.random.Random
 
 @Composable
 fun MainRoute(
@@ -91,7 +93,7 @@ internal fun MainScreen(
 ) {
     val configuration = LocalConfiguration.current
 
-    val cardColorList = listOf(Red20, Green20, Blue20, Pink20)
+    val cardColorList = listOf(Red20, Green20, Blue20, Pink20, ManduGreen20)
 
     when (uiState) {
         is MainScreenUiState.Loading -> {
