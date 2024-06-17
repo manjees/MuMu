@@ -8,5 +8,7 @@ data class ThemeDataModel(
     @SerialName("id") val id: String,
     @SerialName("theme_name") val themeName: String,
     @SerialName("description") val description: String,
-    @SerialName("is_first") val isFirst: Boolean
+    @SerialName("is_first") val isFirst: Boolean,
+    @SerialName("is_title") val isTitle: Boolean,
+    @SerialName("is_show") val isShow: Boolean
 )

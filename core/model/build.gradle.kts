@@ -28,5 +28,6 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.kotlinx.serialization.json)
 }

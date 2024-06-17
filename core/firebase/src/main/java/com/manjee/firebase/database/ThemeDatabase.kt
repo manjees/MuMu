@@ -1,9 +1,7 @@
 package com.manjee.firebase.database
 
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.getValue
 import com.manjee.firebase.FirebaseConst.THEME_DATABASE
-import com.manjee.firebase.model.ThemeDataModel
 import com.manjee.model.Theme
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -12,7 +10,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class ThemeDatabase @Inject constructor(
-    @Named(THEME_DATABASE) private val fireDb: DatabaseReference
+    @Named(THEME_DATABASE) private val fireDb: DatabaseReference,
 ) {
 
     suspend fun getTheme(): List<Theme> = suspendCancellableCoroutine { const ->
@@ -24,9 +22,11 @@ class ThemeDatabase @Inject constructor(
                     id = data["id"] as String,
                     themeName = data["theme_name"] as String,
                     description = data["description"] as String,
-                    isFirst = data["is_first"] as Boolean
+                    isFirst = data["is_first"] as Boolean,
+                    isTitle = data["is_title"] as Boolean,
+                    isShow = data["is_show"] as Boolean
                 )
-            } ?: emptyList()
+            }?.filter { theme -> theme.isShow } ?: emptyList()
 
             const.resume(themeList)
         }.addOnFailureListener {

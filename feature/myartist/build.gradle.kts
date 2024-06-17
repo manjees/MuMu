@@ -11,6 +11,8 @@ android {
 
     defaultConfig {
         minSdk = 28
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -64,4 +66,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
+
+//    testImplementation(libs.junit4)
+//    testImplementation(libs.coroutines.test)
+//    testImplementation(libs.mockk)
+//    testImplementation(libs.mockk.kotlin)
 }

@@ -8,6 +8,8 @@ fun ThemeDataModel.toTheme(): Theme {
         id = this.id,
         themeName = this.themeName,
         description = this.description,
-        isFirst = this.isFirst
+        isFirst = this.isFirst,
+        isTitle = this.isTitle,
+        isShow = this.isShow
     )
 }

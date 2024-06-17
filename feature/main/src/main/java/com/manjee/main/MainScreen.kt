@@ -66,7 +66,7 @@ fun MainRoute(
     viewModel: MainViewModel = hiltViewModel(),
     navigateToLyric: () -> Unit,
     navigateToTitle: (quizId: String) -> Unit,
-    navigateToArtist: () -> Unit
+    navigateToArtist: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -89,7 +89,7 @@ internal fun MainScreen(
     updateShowDialog: () -> Unit,
     navigateToLyric: () -> Unit,
     navigateToTitle: (quizId: String) -> Unit,
-    navigateToArtist: () -> Unit
+    navigateToArtist: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
 
@@ -198,9 +198,13 @@ internal fun MainScreen(
                                 )
                             }
                             .clickable {
-                                when (it) {
-                                    0, 3 -> navigateToTitle(theme.id)
-                                    1 -> navigateToLyric()
+                                if (theme.id == "none")  {
+                                    return@clickable
+                                }
+
+                                when (theme.isTitle) {
+                                    true -> navigateToTitle(theme.id)
+                                    false -> navigateToLyric()
                                 }
                             }
                     ) {
