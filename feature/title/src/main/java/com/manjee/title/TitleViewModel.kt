@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manjee.core.datastore.datasource.CachingPreferenceDataSource
+import com.manjee.firebase.database.BillboardDatabase
 import com.manjee.firebase.database.RankingDatabase
 import com.manjee.firebase.database.TitleDatabase
 import com.manjee.model.Artist
+import com.manjee.model.TitleTheme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TitleViewModel @Inject constructor(
     private val titleDatabase: TitleDatabase,
+    private val billboardDatabase: BillboardDatabase,
     private val rankingDatabase: RankingDatabase,
     private val cachingPreferenceDataSource: CachingPreferenceDataSource
 ) : ViewModel() {
@@ -28,16 +31,29 @@ class TitleViewModel @Inject constructor(
     private var myArtistData: Artist? = null
 
     init {
-        getTitleData()
         getMyArtist()
     }
 
     fun getQuizData(quizId: String) {
-        Log.i("@@@@", "getQuizData: $quizId")
+        if (quizId == TitleTheme.K_POP.id) {
+            getTitleData()
+        } else {
+            getBillboardData()
+        }
     }
 
     private fun getTitleData() = viewModelScope.launch {
         titleDatabase {
+            it.data?.let { data ->
+                _uiState.value = TitleScreenUiState.Success(data)
+            } ?: run {
+                _uiState.value = TitleScreenUiState.Error(it.error ?: "Error")
+            }
+        }
+    }
+
+    private fun getBillboardData() = viewModelScope.launch {
+        billboardDatabase {
             it.data?.let { data ->
                 _uiState.value = TitleScreenUiState.Success(data)
             } ?: run {

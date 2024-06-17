@@ -15,12 +15,15 @@ object TitleNavigation {
     fun detailRoute(quizId: String) = "$TITLE_ROUTE/$quizId"
 }
 
-fun NavController.navigateToTitle(quizId: String, navOptions: NavOptions = NavOptions.Builder().build()) {
+fun NavController.navigateToTitle(
+    quizId: String,
+    navOptions: NavOptions = NavOptions.Builder().build(),
+) {
     navigate(TitleNavigation.detailRoute(quizId), navOptions)
 }
 
 fun NavGraphBuilder.titleScreen(
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
     composable(
         route = TitleNavigation.detailRoute("{$QUIZ_ID}"),

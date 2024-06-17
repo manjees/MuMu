@@ -206,7 +206,7 @@ internal fun MainScreen(
                     ) {
                         Box(
                             modifier = Modifier
-                                .background(cardColorList[Random.nextInt(cardColorList.size)])
+                                .background(cardColorList[Random.nextInt(cardColorList.size - 1)])
                                 .fillMaxSize()
                                 .padding(16.dp)
                         ) {
