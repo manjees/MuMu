@@ -15,7 +15,8 @@ fun NavController.navigateToMain(navOptions: NavOptions = NavOptions.Builder().b
 fun NavGraphBuilder.mainScreen(
     navigateToLyric: () -> Unit,
     navigateToTitle: (quizId: String) -> Unit,
-    navigateToArtist: () -> Unit
+    navigateToArtist: () -> Unit,
+    navigateToInfo: () -> Unit
 ) {
     composable(
         route = MAIN_ROUTE
@@ -23,7 +24,8 @@ fun NavGraphBuilder.mainScreen(
         MainRoute(
             navigateToLyric = navigateToLyric,
             navigateToTitle = navigateToTitle,
-            navigateToArtist = navigateToArtist
+            navigateToArtist = navigateToArtist,
+            navigateToInfo = navigateToInfo
         )
     }
 }

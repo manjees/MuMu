@@ -19,6 +19,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -67,6 +68,7 @@ fun MainRoute(
     navigateToLyric: () -> Unit,
     navigateToTitle: (quizId: String) -> Unit,
     navigateToArtist: () -> Unit,
+    navigateToInfo: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -79,7 +81,8 @@ fun MainRoute(
         updateShowDialog = viewModel::updateShowArtistRequestDialog,
         navigateToLyric = navigateToLyric,
         navigateToTitle = navigateToTitle,
-        navigateToArtist = navigateToArtist
+        navigateToArtist = navigateToArtist,
+        navigateToInfo = navigateToInfo
     )
 }
 
@@ -90,6 +93,7 @@ internal fun MainScreen(
     navigateToLyric: () -> Unit,
     navigateToTitle: (quizId: String) -> Unit,
     navigateToArtist: () -> Unit,
+    navigateToInfo: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
 
@@ -149,6 +153,19 @@ internal fun MainScreen(
                         fontSize = 52.sp,
                         color = Grey90
                     )
+                    IconButton(
+                        modifier = Modifier
+                            .size(48.dp),
+                        onClick = {
+                            navigateToInfo()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Info,
+                            contentDescription = "Info",
+                            tint = Grey90
+                        )
+                    }
                     IconButton(
                         modifier = Modifier
                             .size(48.dp),
@@ -267,17 +284,17 @@ fun MainScreenPreview() {
     MainScreen(
         uiState = MainScreenUiState.Success(
             MainScreenData(
-                true, Artist(0L, "sd", 0), listOf(), listOf()
+                false, Artist(0L, "sd", 0), listOf(), listOf()
             )
         ),
         {},
         {},
         {},
-        {})
+        {},{})
 }
 
 @Composable
 @Preview
 fun MainScreenLoadingPreview() {
-    MainScreen(uiState = MainScreenUiState.Loading, {}, {}, {}, {})
+    MainScreen(uiState = MainScreenUiState.Loading, {}, {}, {}, {},{})
 }

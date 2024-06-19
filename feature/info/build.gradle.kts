@@ -6,11 +6,13 @@ plugins {
 }
 
 android {
-    namespace = "com.manjee.feature.splash"
+    namespace = "com.manjee.info"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 28
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -44,13 +46,6 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:datastore"))
-    implementation(project(":core:model"))
-    implementation(project(":feature:lyric"))
-    implementation(project(":feature:title"))
-    implementation(project(":feature:myartist"))
-    implementation(project(":feature:info"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
@@ -62,6 +57,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.manjee.youtube.player)
 
     // hilt
     implementation(libs.hilt.android)
